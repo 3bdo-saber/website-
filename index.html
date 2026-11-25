@@ -1,0 +1,1684 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="#f47721" name="theme-color"/>
+<meta name="color-scheme" content="light"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="Neferdidi Milkteashop | Freshly Brewed, Made Your Way"/>
+<meta property="og:description" content="Explore Neferdidi's milk tea, fruit tea, coffee, and shakes. Find a branch near you."/>
+<meta property="og:url" content="https://neferdidi-milktea.github.io/Website-1/"/>
+<meta property="og:image" content="https://neferdidi-milktea.github.io/Website-1/neferdidi-mascot.webp"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Neferdidi Milkteashop"/>
+<meta name="twitter:description" content="Explore the menu and find your nearest Neferdidi branch."/>
+<link rel="canonical" href="https://neferdidi-milktea.github.io/Website-1/"/>
+<meta content="Neferdidi Milkteashop — freshly brewed milk tea, fruit tea, coffee and shakes. Find your nearest branch across Egypt." name="description"/>
+<title>Neferdidi | Milkteashop — Freshly Brewed, Made Your Way</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Outfit:wght@600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link rel="preload" as="image" href="neferdidi-mascot.webp" fetchpriority="high"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+<style>
+:root{
+  --orange:#f47721;--orange-dark:#d95d0d;--orange-soft:#fff1e6;
+  --black:#141414;--ink:#2c2c2c;--muted:#767676;
+  --line:#ece7e2;--cream:#fff8f2;
+  --radius:16px;--shadow:0 18px 40px rgba(20,20,20,.08);
+  --maxw:1280px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:86px}
+body{font-family:'Inter',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;background:#fff;color:var(--black);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4{font-family:'Outfit','Inter',sans-serif;line-height:1.15}
+.container{max-width:var(--maxw);margin:0 auto;padding:0 5vw}
+.section{padding:clamp(58px,7vw,100px) 0}
+
+/* ---------- Buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:14px 22px;border-radius:10px;font-weight:800;font-size:14px;letter-spacing:.2px;border:0;cursor:pointer;font-family:inherit;transition:transform .2s,background .2s,border-color .2s,color .2s}
+.btn-primary{background:var(--orange);color:#fff;box-shadow:0 10px 24px rgba(244,119,33,.28)}
+.btn-primary:hover{background:var(--orange-dark);transform:translateY(-2px)}
+.btn-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.28)}
+.btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,.07);transform:translateY(-2px)}
+.btn-dark{background:var(--black);color:#fff}
+.btn-dark:hover{background:#000;transform:translateY(-2px)}
+.btn-outline{border:1px solid var(--line);color:var(--ink);background:#fff}
+.btn-outline:hover{border-color:var(--orange);color:var(--orange-dark)}
+
+/* ---------- Header ---------- */
+.topbar{height:6px;background:linear-gradient(90deg,var(--orange),#ffa15c,var(--orange))}
+.site-header{position:sticky;top:0;z-index:200;background:rgba(255,255,255,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line);transition:box-shadow .3s}
+.site-header.scrolled{box-shadow:0 10px 30px rgba(20,20,20,.08)}
+.nav-wrap{max-width:var(--maxw);margin:0 auto;padding:14px 5vw;display:flex;align-items:center;justify-content:space-between;gap:18px;position:relative}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-mark{width:40px;height:40px;border-radius:13px;background:var(--orange);display:grid;place-items:center;color:#fff;font-family:'Outfit';font-weight:900;font-size:22px;box-shadow:0 6px 16px rgba(244,119,33,.35)}
+.brand-logo{height:38px;width:auto;display:block;flex:none}
+.brand-text{font-family:'Outfit';font-weight:900;letter-spacing:1.6px;font-size:19px;line-height:1}
+.brand-text small{display:block;font-family:'Inter';font-size:8.5px;letter-spacing:3.4px;font-weight:700;margin-top:4px;color:var(--muted)}
+.nav{display:flex;align-items:center;gap:4px}
+.nav-link{padding:9px 14px;border-radius:9px;font-size:14px;font-weight:600;color:#4b4b4b;transition:.2s}
+.nav-link:hover{color:var(--orange-dark);background:var(--orange-soft)}
+.nav-link.active{color:var(--orange-dark);background:var(--orange-soft)}
+.header-cta{padding:12px 18px;font-size:13px}
+.burger{display:none;width:44px;height:44px;border:1px solid var(--line);background:#fff;border-radius:11px;cursor:pointer;padding:0;place-items:center}
+.burger span{display:block;width:18px;height:2px;background:var(--black);border-radius:2px;margin:3.5px auto;transition:.3s}
+.burger.active span:nth-child(1){transform:translateY(5.5px) rotate(45deg)}
+.burger.active span:nth-child(2){opacity:0}
+.burger.active span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg)}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;background:var(--black);color:#fff;overflow:hidden;padding:clamp(56px,8vw,104px) 0 clamp(60px,8vw,100px)}
+.hero::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(680px 460px at 8% -10%,rgba(244,119,33,.30),transparent 68%),
+  radial-gradient(520px 380px at 92% 110%,rgba(244,119,33,.16),transparent 70%)}
+.hero::after{content:"";position:absolute;width:420px;height:420px;border:58px solid rgba(244,119,33,.10);border-radius:50%;right:-120px;top:-170px}
+.hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;color:#ff9a55;text-transform:uppercase;font-size:11.5px;font-weight:800;letter-spacing:3px}
+.eyebrow::before{content:"";width:26px;height:2px;background:var(--orange);border-radius:2px}
+.hero h1{font-size:clamp(40px,6.4vw,76px);line-height:1.02;letter-spacing:-2.4px;font-weight:900;margin:20px 0 20px}
+.hero h1 span{color:var(--orange)}
+.hero p.lead{max-width:540px;color:#cfcfcf;font-size:16.5px;line-height:1.75;margin-bottom:32px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+.hero-stats{display:flex;flex-wrap:wrap;gap:34px;margin-top:46px;padding-top:30px;border-top:1px solid rgba(255,255,255,.12)}
+.hero-stats b{display:block;font-family:'Outfit';font-size:30px;font-weight:800;letter-spacing:-1px}
+.hero-stats b em{color:var(--orange);font-style:normal}
+.hero-stats span{font-size:11.5px;text-transform:uppercase;letter-spacing:1.8px;color:#9a9a9a;font-weight:700}
+.hero-art{display:grid;place-items:center;position:relative}
+.hero-art::after{content:"";position:absolute;width:270px;height:270px;border-radius:50%;background:radial-gradient(circle,rgba(244,119,33,.42),transparent 66%);filter:blur(14px);z-index:-1}
+.cup{width:auto;height:min(520px,62vh);max-width:100%;object-fit:contain;filter:drop-shadow(0 28px 34px rgba(0,0,0,.55));animation:float 6s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+
+/* ---------- Marquee ---------- */
+.marquee{background:var(--orange);color:#fff;overflow:hidden;padding:15px 0;white-space:nowrap}
+.marquee-track{display:inline-flex;gap:34px;animation:scroll 26s linear infinite;will-change:transform}
+.marquee-track span{font-family:'Outfit';font-weight:800;font-size:14px;letter-spacing:2.6px;text-transform:uppercase;opacity:.95}
+.marquee-track span.dot{opacity:.55}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+/* ---------- Section head ---------- */
+.section-head{max-width:660px;margin-bottom:clamp(30px,4vw,52px)}
+.section-head.center{margin-left:auto;margin-right:auto;text-align:center}
+.section-head.center .eyebrow{justify-content:center}
+.section-head h2{font-size:clamp(30px,4.4vw,50px);letter-spacing:-1.6px;font-weight:800;margin:16px 0 14px}
+.section-head p{color:var(--muted);font-size:16.5px;line-height:1.7}
+
+/* ---------- Story ---------- */
+.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,72px);align-items:center}
+.story-copy h2{font-size:clamp(30px,4.2vw,48px);letter-spacing:-1.5px;font-weight:800;margin:16px 0 18px}
+.story-copy p{color:#5e5e5e;font-size:16px;line-height:1.8;margin-bottom:16px}
+.story-points{list-style:none;margin-top:26px;display:grid;gap:13px}
+.story-points li{display:flex;gap:12px;align-items:flex-start;font-size:15px;font-weight:600;color:var(--ink)}
+.story-points li::before{content:"✓";flex:none;width:23px;height:23px;border-radius:50%;background:var(--orange-soft);color:var(--orange-dark);display:grid;place-items:center;font-size:12px;font-weight:900;margin-top:2px}
+.story-cards{display:grid;gap:16px}
+.story-card{border-radius:20px;padding:28px;background:var(--cream);border:1px solid #ffe6d4;position:relative;overflow:hidden}
+.story-card:nth-child(2){background:var(--black);border-color:var(--black);color:#fff}
+.story-card:nth-child(3){background:#fff;border-color:var(--line)}
+.story-card b{display:block;font-family:'Outfit';font-size:19px;font-weight:800;margin-bottom:7px}
+.story-card p{font-size:14px;line-height:1.65;color:var(--muted)}
+.story-card:nth-child(2) p{color:#b6b6b6}
+.story-card .big{font-family:'Outfit';font-size:44px;font-weight:900;color:var(--orange);line-height:1;letter-spacing:-2px;margin-bottom:6px}
+
+/* ---------- Menu ---------- */
+.menu-section{background:var(--cream);border-top:1px solid #f6ece3;border-bottom:1px solid #f6ece3}
+.tabs{display:flex;flex-wrap:nowrap;gap:8px;margin:0 -2px 16px;padding:4px 2px 10px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+.tab{flex:0 0 auto;white-space:nowrap;padding:9px 15px;border-radius:24px;border:1px solid #ecdfd3;background:#fff;font-family:inherit;font-size:12.5px;font-weight:700;color:#5a5a5a;cursor:pointer;transition:background .18s,border-color .18s,color .18s}
+.tab:hover{border-color:var(--orange);color:var(--orange-dark)}
+.tab.active{background:var(--black);border-color:var(--black);color:#fff}
+.menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr));gap:13px;contain:layout style}
+.dish{position:relative;background:#fff;border:1px solid var(--line);border-radius:15px;padding:12px;display:flex;flex-direction:column;gap:7px;transition:border-color .18s;min-width:0;content-visibility:auto;contain-intrinsic-size:300px}
+.dish:hover{border-color:#ffd0ad}
+.dish.hide{display:none}
+.dish-icon{display:none}
+.dish h3{font-size:15px;font-weight:700;letter-spacing:-.2px;padding-right:0;line-height:1.3}
+.dish p{font-size:12px;color:var(--muted);line-height:1.45;flex:1}
+.price{font-weight:800;color:var(--orange-dark);font-size:13px;margin-top:3px}
+.price small{font-weight:600;color:var(--muted);font-size:11.5px;margin-left:4px}
+.tag{position:absolute;top:19px;right:19px;font-size:9px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;padding:5px 9px;border-radius:20px;background:var(--orange);color:#fff}
+.tag.new{background:var(--black)}
+.menu-note{margin-top:30px;font-size:13.5px;color:var(--muted);text-align:center;background:#fff;padding:16px;border-radius:12px;border:1px solid var(--line)}
+
+
+.menu-tools{display:flex;align-items:center;gap:10px;margin:0 0 18px}
+.menu-search-wrap{position:relative;flex:1;min-width:0}
+.menu-search{width:100%;height:44px;border:1px solid #ecdfd3;border-radius:12px;background:#fff;padding:0 15px 0 42px;font:500 13px inherit;color:var(--black);outline:none;transition:border-color .18s,box-shadow .18s}
+.menu-search:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(244,119,33,.12)}
+.menu-search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#8a8179;font-size:17px;pointer-events:none}
+.menu-results{font-size:12px;color:var(--muted);white-space:nowrap}
+.dish.hide{display:none!important}
+@media(max-width:600px){.menu-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.dish{padding:9px;border-radius:12px}.dish-photo{height:112px}.dish h3{font-size:13px}.dish p{font-size:11px}.price{font-size:12px}.tag{top:14px;right:14px;font-size:8px;padding:4px 6px}.menu-results{font-size:11px}}
+
+/* ---------- Branches ---------- */
+.section-head.row{max-width:none;display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
+.count{white-space:nowrap;background:var(--cream);border:1px solid #ffe0ca;color:var(--orange-dark);padding:10px 15px;border-radius:30px;font-size:12px;font-weight:800;letter-spacing:.6px}
+.toolbar{display:flex;gap:12px;margin-bottom:26px;flex-wrap:wrap}
+.search{flex:1;min-width:230px;position:relative}
+.search input{width:100%;padding:15px 16px 15px 44px;border:1px solid var(--line);border-radius:11px;font:inherit;font-size:15px;outline:none;background:#fff;transition:.2s}
+.search input:focus{border-color:var(--orange);box-shadow:0 0 0 4px rgba(244,119,33,.12)}
+.search::before{content:"⌕";position:absolute;left:16px;top:6px;font-size:26px;color:#9a9a9a;line-height:1.6}
+.filter{padding:0 18px;border:1px solid var(--line);border-radius:11px;background:#fff;font-family:inherit;font-weight:700;font-size:14px;color:#333;min-height:52px;cursor:pointer;outline:none}
+.filter:focus{border-color:var(--orange)}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.branch{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;display:flex;flex-direction:column;min-height:230px;transition:transform .25s,box-shadow .25s,border-color .25s}
+.branch:hover{transform:translateY(-5px);box-shadow:var(--shadow);border-color:#ffd0ad}
+.card-top{height:7px;background:linear-gradient(90deg,var(--orange),#ffa15c)}
+.card-content{padding:23px 22px;display:flex;flex-direction:column;flex:1}
+.branch-number{font-size:10px;letter-spacing:2px;color:var(--orange-dark);font-weight:900;text-transform:uppercase;margin-bottom:11px}
+.branch h3{font-size:20px;line-height:1.25;margin-bottom:9px;font-weight:800;letter-spacing:-.3px}
+.address{font-size:13.2px;color:#6b6b6b;line-height:1.6;margin-bottom:22px;flex:1}
+.actions{display:flex;gap:9px}
+.map-btn{display:flex;justify-content:center;align-items:center;gap:8px;text-decoration:none;padding:12px 13px;border-radius:9px;font-size:12.5px;font-weight:800;flex:1;transition:.22s}
+.map-btn.primary{background:var(--orange);color:#fff}
+.map-btn.primary:hover{background:var(--orange-dark)}
+.empty{display:none;text-align:center;padding:52px 15px;color:var(--muted);grid-column:1/-1;font-size:15px}
+
+
+/* ---------- Branch map ---------- */
+.map-wrap{position:relative;margin-bottom:26px;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);background:var(--cream)}
+#branch-map{height:520px;width:100%;z-index:0}
+.map-fallback{display:none;padding:60px 20px;text-align:center;color:var(--muted)}
+.map-fallback a{color:var(--orange-dark);font-weight:800}
+.map-wrap.failed #branch-map{display:none}.map-wrap.failed .map-fallback{display:block}
+.map-btn.secondary{background:var(--cream);color:var(--orange-dark);border:1px solid #ffd0ad;cursor:pointer;font-family:inherit}
+.map-btn.secondary:hover{background:var(--orange-soft)}
+.nfd-pin{background:none;border:0}
+.nfd-pin svg{width:36px;height:46px;filter:drop-shadow(0 4px 5px rgba(0,0,0,.3));transition:transform .2s;transform-origin:50% 100%}
+.nfd-pin:hover svg,.nfd-pin.active svg{transform:scale(1.18)}
+.nfd-pop{font-family:'Inter',system-ui,sans-serif;min-width:170px}
+.nfd-pop b{display:block;font-family:'Outfit','Inter',sans-serif;font-size:16px;margin-bottom:2px;color:var(--black)}
+.nfd-pop span{display:block;font-size:12.5px;color:#6b6b6b;line-height:1.5;margin-bottom:6px}
+.nfd-pop em{display:block;font-style:normal;font-size:11px;color:#999;margin-bottom:8px}
+.nfd-pop a.pop-btn{display:inline-block;background:var(--orange);color:#fff!important;padding:8px 12px;border-radius:8px;font-size:12px;font-weight:800}
+.leaflet-popup-content-wrapper{border-radius:12px}
+@media(max-width:700px){#branch-map{height:380px}}
+
+/* ---------- Contact ---------- */
+.contact{background:var(--black);color:#fff;position:relative;overflow:hidden}
+.contact::before{content:"";position:absolute;inset:0;background:radial-gradient(600px 400px at 88% 0%,rgba(244,119,33,.25),transparent 68%)}
+.contact .container{position:relative;z-index:2}
+.contact .section-head p{color:#b4b4b4}
+.contact .eyebrow{color:#ff9a55}
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:8px}
+.contact-card{border:1px solid rgba(255,255,255,.14);border-radius:var(--radius);padding:28px 26px;background:rgba(255,255,255,.035);transition:.25s;display:flex;flex-direction:column;gap:10px}
+.contact-card:hover{border-color:var(--orange);background:rgba(244,119,33,.09);transform:translateY(-4px)}
+.contact-card b{font-family:'Outfit';font-size:19px;font-weight:800}
+.contact-card p{font-size:14px;color:#a9a9a9;line-height:1.65;flex:1}
+.contact-card span.link{color:var(--orange);font-weight:800;font-size:13.5px}
+.socials{display:flex;flex-wrap:wrap;gap:11px;margin-top:34px}
+.social{display:inline-flex;align-items:center;gap:9px;padding:12px 18px;border-radius:11px;border:1px solid rgba(255,255,255,.16);font-size:13.5px;font-weight:700;transition:.22s}
+.social:hover{border-color:var(--orange);color:var(--orange);transform:translateY(-2px)}
+
+/* ---------- Footer ---------- */
+footer{background:#0d0d0d;color:#8c8c8c;padding:46px 0 30px;font-size:13.5px}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:34px;padding-bottom:30px;border-bottom:1px solid rgba(255,255,255,.09)}
+.footer-brand{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.footer-brand .brand-text{color:#fff}
+.footer-brand .brand-text small{color:#7d7d7d}
+.footer-grid p{line-height:1.7;max-width:340px}
+.footer-col h4{font-family:'Outfit';color:#fff;font-size:14px;letter-spacing:1.4px;text-transform:uppercase;margin-bottom:14px;font-weight:800}
+.footer-col a{display:block;padding:5px 0;transition:.2s}
+.footer-col a:hover{color:var(--orange)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;gap:14px;padding-top:22px;flex-wrap:wrap;font-size:12.5px}
+.footer-bottom strong{color:#fff;letter-spacing:1.6px}
+.footer-bottom span{color:var(--orange)}
+
+/* ---------- To top ---------- */
+.to-top{position:fixed;right:20px;bottom:20px;width:48px;height:48px;border-radius:14px;background:var(--orange);color:#fff;border:0;display:grid;place-items:center;cursor:pointer;font-size:19px;box-shadow:0 12px 28px rgba(244,119,33,.4);opacity:0;pointer-events:none;transform:translateY(14px);transition:.3s;z-index:150}
+.to-top.show{opacity:1;pointer-events:auto;transform:none}
+.to-top:hover{background:var(--orange-dark)}
+
+/* ---------- Reveal ---------- */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .75s cubic-bezier(.2,.7,.3,1),transform .75s cubic-bezier(.2,.7,.3,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- Responsive ---------- */
+@media(max-width:1080px){
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:960px){
+  .nav{position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:2px;padding:12px 5vw 20px;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 22px 34px rgba(20,20,20,.10);display:none}
+  .nav.open{display:flex}
+  .nav-link{padding:13px 14px;font-size:15px}
+  .burger{display:grid}
+  .header-cta{display:none}
+  .hero-grid{grid-template-columns:1fr}
+  .hero-art{display:none}
+  .story-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:620px){
+  .brand-text{font-size:17px}
+  .hero h1{letter-spacing:-1.3px}
+  .hero-stats{gap:24px}
+  .hero-stats b{font-size:25px}
+  .grid{grid-template-columns:1fr}
+  .section-head.row{flex-direction:column;align-items:flex-start}
+  .menu-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr}
+  .footer-bottom{flex-direction:column;align-items:flex-start}
+  .to-top{right:14px;bottom:14px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .reveal{opacity:1;transform:none}
+}
+
+.dish-photo{width:100%;height:132px;object-fit:contain;background:#fffaf6;border-radius:10px;margin-bottom:3px;}
+.dish-icon{display:none!important;}
+
+/* ================= EVENTS ================= */
+  .nfd-events { --o:var(--orange); --dark:var(--black); background:var(--cream); }
+
+  /* ---- event highlights (logos) ---- */
+  .nfd-slider { position:relative; margin-bottom:24px; }
+  .nfd-track { display:flex; gap:22px; overflow-x:auto; scroll-behavior:smooth; padding:6px 44px 4px; scrollbar-width:none; justify-content:center; }
+  .nfd-track::-webkit-scrollbar { display:none; }
+  .nfd-hl { flex:none; width:92px; text-align:center; }
+  .nfd-ring { width:80px; height:80px; margin:0 auto 8px; border-radius:50%; padding:3px;
+    background:conic-gradient(from 200deg,#f47721,#ffb36b,#e0457b,#f47721); }
+  .nfd-ring span { display:block; width:100%; height:100%; border-radius:50%; border:3px solid #fff8f2; overflow:hidden; background:#fff; }
+  .nfd-ring img { width:100%; height:100%; object-fit:cover; display:block; }
+  .nfd-hl b { display:block; font-size:.78rem; font-weight:600; color:var(--dark); line-height:1.25; }
+  .nfd-arrow { position:absolute; top:34px; transform:translateY(-50%); width:36px; height:36px; border-radius:50%;
+    border:0; background:#fff; color:var(--o); font-size:1.2rem; cursor:pointer; box-shadow:0 3px 10px rgba(0,0,0,.15); z-index:2; }
+  .nfd-arrow.l { left:0; } .nfd-arrow.r { right:0; }
+
+  /* ---- photo carousel ---- */
+  .nfd-gal { position:relative; }
+  .nfd-gallery { display:flex; gap:12px; overflow-x:auto; scroll-snap-type:x proximity; scroll-behavior:smooth;
+    padding:4px 2px 14px; scrollbar-width:none; cursor:grab; -webkit-overflow-scrolling:touch; }
+  .nfd-gallery::-webkit-scrollbar { display:none; }
+  .nfd-gallery.drag { cursor:grabbing; }
+  .nfd-gallery figure { flex:none; height:380px; margin:0; position:relative; border-radius:16px; overflow:hidden;
+    scroll-snap-align:start; cursor:zoom-in; background:#f3e3d4; box-shadow:0 4px 16px rgba(244,119,33,.12); }
+  .nfd-gallery img { height:100%; width:auto; display:block; transition:transform .35s; -webkit-user-drag:none; user-select:none; }
+  .nfd-gallery figure:hover img { transform:scale(1.04); }
+  .nfd-gallery figcaption { position:absolute; left:0; right:0; bottom:0; padding:22px 12px 10px; color:#fff; font-size:.8rem; font-weight:600;
+    background:linear-gradient(transparent, rgba(0,0,0,.65)); opacity:0; transition:.25s; }
+  .nfd-gallery figure:hover figcaption { opacity:1; }
+  .nfd-garrow { position:absolute; top:50%; transform:translateY(-50%); z-index:3; width:44px; height:44px; border-radius:50%;
+    border:0; background:#fff; color:var(--o); font-size:1.5rem; line-height:1; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.22); }
+  .nfd-garrow:hover { background:var(--o); color:#fff; }
+  .nfd-garrow.l { left:8px; } .nfd-garrow.r { right:8px; }
+
+  /* ---- lightbox ---- */
+  .nfd-lightbox { position:fixed; inset:0; background:rgba(15,10,6,.92); display:none; align-items:center; justify-content:center; z-index:9999; padding:20px; }
+  .nfd-lightbox.open { display:flex; }
+  .nfd-lightbox img { max-width:94vw; max-height:82vh; border-radius:12px; }
+  .nfd-lightbox .nfd-cap { position:absolute; bottom:20px; left:0; right:0; text-align:center; color:#fff; font-size:.92rem; }
+  .nfd-lightbox button { position:absolute; background:rgba(255,255,255,.14); color:#fff; border:0; width:44px; height:44px; border-radius:50%; font-size:1.3rem; cursor:pointer; }
+  .nfd-lightbox .nfd-close { top:16px; right:16px; }
+  .nfd-lightbox .nfd-prev { left:12px; top:50%; }
+  .nfd-lightbox .nfd-next { right:12px; top:50%; }
+  @media (max-width:600px){ .nfd-gallery figure{height:290px;} .nfd-garrow{display:none;} .nfd-gallery figcaption{opacity:1;} .nfd-track{padding:6px 8px 4px; justify-content:flex-start;} .nfd-arrow{display:none;} }
+
+
+/* ---------- Menu refresh: compact horizontal drink carousels ---------- */
+.menu-section .tabs{position:relative;gap:8px;margin:0 0 22px;padding:5px 2px 12px;scrollbar-width:none;mask-image:linear-gradient(90deg,#000 0%,#000 94%,transparent 100%)}
+.menu-section .tabs::-webkit-scrollbar{display:none}
+.menu-section .tab{padding:9px 14px;font-size:12px;box-shadow:0 2px 8px rgba(28,22,18,.035)}
+.menu-section .tab.active{background:var(--orange);border-color:var(--orange);color:#fff}
+.menu-tools{margin:0 0 24px;gap:12px}
+.menu-search{height:47px;border-radius:14px;box-shadow:0 3px 14px rgba(28,22,18,.035)}
+.menu-results{font-size:12px;font-weight:700;color:#777;white-space:normal;text-align:right}
+.menu-catalog{display:grid;gap:32px;min-width:0}
+.menu-category{min-width:0;scroll-margin-top:24px}
+.menu-category[hidden]{display:none!important}
+.menu-category-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.menu-category-copy{min-width:0}
+.menu-category-title{font-size:clamp(19px,2.1vw,25px);font-weight:800;letter-spacing:-.6px;line-height:1.2;margin:0 0 5px;color:var(--black)}
+.menu-category-subtitle{font-size:12px;line-height:1.45;color:var(--muted);margin:0}
+.menu-carousel-controls{display:flex;align-items:center;gap:7px;flex:none}
+.menu-category-count{font-size:11px;font-weight:700;color:var(--muted);margin-right:4px;white-space:nowrap}
+.menu-arrow{width:34px;height:34px;display:grid;place-items:center;border:1px solid #eadbce;background:#fff;color:#27221e;border-radius:50%;font-size:17px;line-height:1;cursor:pointer;transition:background .2s,border-color .2s,color .2s;}
+.menu-arrow:hover{background:var(--orange);border-color:var(--orange);color:#fff}
+.menu-section .menu-grid.menu-carousel{display:flex!important;grid-template-columns:none!important;grid-auto-columns:unset!important;gap:13px;overflow-x:auto;overflow-y:hidden;padding:3px 2px 13px;scroll-snap-type:x mandatory;scroll-behavior:smooth;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:#e6c4aa transparent;contain:layout style;}
+.menu-section .menu-grid.menu-carousel::-webkit-scrollbar{height:5px}
+.menu-section .menu-grid.menu-carousel::-webkit-scrollbar-track{background:transparent}
+.menu-section .menu-grid.menu-carousel::-webkit-scrollbar-thumb{background:#e6c4aa;border-radius:20px}
+.menu-section .menu-grid.menu-carousel .dish{display:flex!important;flex:0 0 clamp(190px,21vw,244px);width:auto;min-width:0;min-height:285px;padding:11px;border-radius:15px;scroll-snap-align:start;scroll-snap-stop:normal;box-shadow:0 4px 14px rgba(32,23,16,.035);transition:transform .2s,border-color .2s,box-shadow .2s;}
+.menu-section .menu-grid.menu-carousel .dish:hover{transform:translateY(-2px);box-shadow:0 9px 22px rgba(32,23,16,.08)}
+.menu-section .menu-grid.menu-carousel .dish.hide{display:none!important}
+.menu-section .menu-grid.menu-carousel .dish-photo{height:128px;min-height:128px;width:100%;object-fit:contain;background:#fffaf6;border-radius:10px;margin:0 0 3px;}
+.menu-section .menu-grid.menu-carousel .dish h3{font-size:13.5px;line-height:1.35;font-weight:800;margin:0}
+.menu-section .menu-grid.menu-carousel .dish p{font-size:11px;line-height:1.5;color:var(--muted);margin:0;flex:1}
+.menu-section .menu-grid.menu-carousel .price{font-size:12px;line-height:1.4;margin-top:4px}
+.menu-section .menu-grid.menu-carousel .price small{font-size:10px}
+.menu-empty{padding:28px 16px;margin:12px 0 0;background:#fff;border:1px dashed #e8d4c4;border-radius:14px;color:var(--muted);text-align:center;font-size:13px}
+.menu-empty[hidden]{display:none!important}
+@media(max-width:700px){
+ .menu-section .tabs{margin-bottom:16px;gap:7px}
+ .menu-section .tab{padding:9px 12px;font-size:11.5px}
+ .menu-tools{align-items:flex-start;flex-direction:column;gap:8px;margin-bottom:24px}
+ .menu-search-wrap{width:100%}
+ .menu-results{text-align:left;font-size:11px}
+ .menu-catalog{gap:27px}
+ .menu-category-head{align-items:center;margin-bottom:10px}
+ .menu-category-title{font-size:19px}
+ .menu-category-subtitle{font-size:11px}
+ .menu-category-count{display:none}
+ .menu-arrow{width:31px;height:31px}
+ .menu-section .menu-grid.menu-carousel{gap:10px;margin-right:-1vw;padding-bottom:12px;scrollbar-width:none;}
+ .menu-section .menu-grid.menu-carousel::-webkit-scrollbar{display:none}
+ .menu-section .menu-grid.menu-carousel .dish{flex:0 0 min(72vw,250px);min-height:274px;padding:10px;border-radius:14px}
+ .menu-section .menu-grid.menu-carousel .dish-photo{height:122px;min-height:122px}
+ .menu-section .menu-grid.menu-carousel .dish h3{font-size:13px}
+ .menu-section .menu-grid.menu-carousel .dish p{font-size:10.8px}
+}
+@media(prefers-reduced-motion:reduce){.menu-section .menu-grid.menu-carousel{scroll-behavior:auto!important}}
+
+
+.menu-section .menu-grid.menu-carousel .dish-photo-fallback{height:128px;min-height:128px;width:100%;display:grid;place-items:center;background:linear-gradient(145deg,#fff7ef,#fffdfb);border:1px solid #f7e6d7;border-radius:10px;font-size:34px;margin:0 0 3px}
+@media(max-width:700px){.menu-section .menu-grid.menu-carousel .dish-photo-fallback{height:122px;min-height:122px}}
+
+
+/* ---------- Quality, accessibility and mobile polish ---------- */
+:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+button,a,input,select{-webkit-tap-highlight-color:transparent}
+.btn,.map-btn,.tab,.menu-arrow,.nfd-arrow,.nfd-garrow{touch-action:manipulation}
+.brand-logo{width:auto;height:38px;object-fit:contain}
+.cup{will-change:transform}
+.menu-section .menu-grid.menu-carousel{scrollbar-gutter:stable;}
+.menu-section .menu-grid.menu-carousel .dish{overflow:hidden}
+.menu-section .menu-grid.menu-carousel .dish-photo{aspect-ratio:1.35/1;object-fit:contain}
+.menu-search::placeholder{color:#91877f;opacity:1}
+.menu-tools{position:relative}
+.menu-results{min-height:18px}
+.nfd-gallery figure{background:#241b15;cursor:zoom-in}
+.nfd-gallery img{object-fit:cover}
+.branch:focus-within{border-color:var(--orange)}
+@media(max-width:960px){
+ .nav-wrap{padding-top:11px;padding-bottom:11px}
+ .nav{max-height:calc(100dvh - 76px);overflow-y:auto}
+}
+@media(max-width:600px){
+ .container{padding-left:5vw;padding-right:5vw}
+ .hero{padding-top:52px;padding-bottom:58px}
+ .hero p.lead{font-size:15px}
+ .hero-actions .btn{flex:1 1 145px;padding:13px 14px}
+ .section{padding-top:56px;padding-bottom:56px}
+ .menu-section .menu-grid.menu-carousel .dish{flex-basis:min(68vw,238px)}
+ .nfd-gallery figure{height:270px}
+}
+@media(hover:none){.branch:hover,.menu-section .menu-grid.menu-carousel .dish:hover{transform:none;box-shadow:none}}
+
+
+/* ---------- Dish cards: one fixed size everywhere ---------- */
+.menu-section .menu-grid.menu-carousel{gap:14px;align-items:flex-start}
+.menu-section .menu-grid.menu-carousel .dish{flex:0 0 200px;width:200px;height:var(--dish-h,304px);min-height:0;padding:8px 8px 0;gap:0;border-radius:16px;box-shadow:0 2px 10px rgba(32,23,16,.04);overflow:hidden}
+.menu-section .menu-grid.menu-carousel .dish-photo,.menu-section .menu-grid.menu-carousel .dish-photo-fallback{width:100%;height:132px;min-height:0;aspect-ratio:auto;object-fit:cover;flex:none;border-radius:11px;margin:0 0 10px}
+.menu-section .menu-grid.menu-carousel .dish h3{font-size:13.5px;line-height:1.3;font-weight:800;padding:0 4px;margin:0 0 4px;flex:none;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.menu-section .menu-grid.menu-carousel .dish p{flex:none;font-size:11px;line-height:1.45;padding:0 4px;margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.menu-section .menu-grid.menu-carousel .price{margin:auto 4px 0;height:50px;flex:none;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;align-content:center;align-items:center;justify-content:space-between;gap:3px 8px;font-size:13px;font-weight:800;line-height:1.25;letter-spacing:0}
+.menu-section .menu-grid.menu-carousel .price small{margin:0;font-size:10px;font-weight:700;color:var(--orange-dark);background:var(--orange-soft);padding:3px 7px;border-radius:20px;white-space:nowrap}
+.menu-section .menu-grid.menu-carousel .tag{top:14px;right:14px}
+@media(max-width:700px){
+.menu-section .menu-grid.menu-carousel{gap:10px}
+.menu-section .menu-grid.menu-carousel .dish{flex:0 0 176px;width:176px;padding:7px 7px 0}
+.menu-section .menu-grid.menu-carousel .dish-photo,.menu-section .menu-grid.menu-carousel .dish-photo-fallback{height:116px}
+.menu-section .menu-grid.menu-carousel .dish h3{font-size:13px}
+.menu-section .menu-grid.menu-carousel .price{font-size:12.5px}
+}
+/* ---------- Price rows ---------- */
+.menu-section .menu-grid.menu-carousel .price{flex-direction:column;flex-wrap:nowrap;align-items:stretch;justify-content:center;gap:5px}
+.menu-section .menu-grid.menu-carousel .price .pl{display:flex;align-items:center;gap:9px;white-space:nowrap}
+.menu-section .menu-grid.menu-carousel .price .pl small{min-width:24px;text-align:center;padding:3px 6px}
+/* ---------- Dish cards: no dead space (all text blocks reserve fixed lines, price follows directly) ---------- */
+.menu-section .menu-grid.menu-carousel .dish{height:auto;padding-bottom:0}
+.menu-section .menu-grid.menu-carousel .dish h3{min-height:2.6em}
+.menu-section .menu-grid.menu-carousel .dish p{min-height:2.9em;margin-bottom:10px}
+.menu-section .menu-grid.menu-carousel .price{margin-top:0}
+/* ---------- Language switch ---------- */
+.lang-toggle{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:30px;background:#fff;padding:3px;cursor:pointer;font-family:inherit;flex:none}
+.lang-toggle span{padding:6px 11px;border-radius:24px;font-size:12px;font-weight:800;color:#666;line-height:1;transition:.2s}
+.lang-toggle span.on{background:var(--orange);color:#fff}
+html[lang="zh-CN"] body{font-family:'Inter','PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans SC',system-ui,sans-serif}
+html[lang="zh-CN"] h1,html[lang="zh-CN"] h2,html[lang="zh-CN"] h3,html[lang="zh-CN"] h4{font-family:'Outfit','PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans SC',sans-serif;letter-spacing:0}
+</style>
+</head>
+<body>
+<div class="topbar"></div>
+<!-- ================= HEADER ================= -->
+<header class="site-header" id="siteHeader">
+<div class="nav-wrap">
+<a aria-label="Neferdidi home" class="brand" href="#home">
+<img alt="Neferdidi logo" class="brand-logo" src="neferdidi-logo-mark.webp" width="350" height="278" decoding="async"/>
+<span class="brand-text">NEFERDIDI<small>MILKTEASHOP</small></span>
+</a>
+<nav aria-label="Main navigation" class="nav" id="nav">
+<a class="nav-link active" href="#home">Home</a>
+<a class="nav-link" href="#story">Our Story</a>
+<a class="nav-link" href="#menu">Menu</a>
+<a class="nav-link" href="#branches">Branches</a>
+<a class="nav-link" href="#events">Events</a>
+<a class="nav-link" href="#contact">Contact</a>
+</nav>
+<a class="btn btn-primary header-cta" href="#branches">Find a branch</a>
+<button type="button" class="lang-toggle" id="langToggle" aria-label="Switch language"><span data-l="en" class="on">EN</span><span data-l="zh">中文</span></button>
+<button type="button" aria-controls="nav" aria-expanded="false" aria-label="Open menu" class="burger" id="burger">
+<span></span><span></span><span></span>
+</button>
+</div>
+</header>
+<!-- ================= HERO ================= -->
+<section class="hero" id="home">
+<div class="container hero-grid">
+<div class="hero-copy">
+<div class="eyebrow">Your next favourite sip</div>
+<h1>Freshly brewed.<br/><span>Made your way.</span></h1>
+<p class="lead">From slow-brewed milk tea and real-fruit teas to Spanish lattes and thick shakes — Neferdidi is your everyday treat, made fresh in every cup, at 15+ branches across Egypt.</p>
+<div class="hero-actions">
+<a class="btn btn-primary" href="#menu">Explore the menu →</a>
+<a class="btn btn-ghost" href="#branches">Find your branch</a>
+</div>
+<div class="hero-stats">
+<div><b>15<em>+</em></b><span>Branches</span></div>
+<div><b>3</b><span>Governorates</span></div>
+<div><b>100<em>%</em></b><span>Fresh daily</span></div>
+</div>
+</div>
+<div aria-hidden="true" class="hero-art">
+<img alt="" class="cup" src="neferdidi-mascot.webp" width="399" height="760" decoding="async" fetchpriority="high"/>
+</div>
+</div>
+</section>
+<!-- ================= MARQUEE ================= -->
+<div aria-hidden="true" class="marquee">
+<div class="marquee-track">
+<span>Freshly Brewed</span><span class="dot">•</span><span>Daily Boba</span><span class="dot">•</span><span>Real Fruit</span><span class="dot">•</span><span>Neferdidi Milkteashop</span><span class="dot">•</span>
+<span>Freshly Brewed</span><span class="dot">•</span><span>Daily Boba</span><span class="dot">•</span><span>Real Fruit</span><span class="dot">•</span><span>Neferdidi Milkteashop</span><span class="dot">•</span>
+</div>
+</div>
+<!-- ================= STORY ================= -->
+<section class="section" id="story">
+<div class="container story-grid">
+<div class="story-copy reveal">
+<div class="eyebrow">Our story</div>
+<h2>A little cup of happiness, brewed every day.</h2>
+<p>Neferdidi started with one simple idea: a great milk tea shouldn't be a special occasion. It should be the thing you grab on the way to work, the treat you share with friends, the little pause in a long day.</p>
+<p>So we keep it simple — real tea brewed in small batches, fresh milk, real fruit, and pearls cooked fresh every single day. No shortcuts, no powders pretending to be tea.</p>
+<ul class="story-points">
+<li>Tea brewed fresh in-store, multiple times a day</li>
+<li>Boba pearls cooked on-site, never re-heated</li>
+<li>Real fruit purées — no artificial syrups</li>
+</ul>
+</div>
+<div class="story-cards reveal">
+<div class="story-card">
+<div class="big">15+</div>
+<b>Branches &amp; counting</b>
+<p>Cairo, New Cairo, 10th of Ramadan, Ismailia, Obour and more on the way.</p>
+</div>
+<div class="story-card">
+<b>Made the way you like it</b>
+<p>Every cup is customisable — milk swap and as many toppings as you dare.</p>
+</div>
+<div class="story-card">
+<b>Good drinks. Good moments.</b>
+<p>That's the whole point. Come for the boba, stay for the vibe.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= MENU ================= -->
+<section class="section menu-section" id="menu">
+<div class="container">
+<div class="section-head center reveal">
+<div class="eyebrow">Our menu</div>
+<h2>Something for every craving</h2>
+<p>Browse each collection, then swipe sideways to explore the drinks. Or search for your favourite.</p>
+</div>
+<div aria-label="Menu categories" class="tabs reveal" role="navigation">
+<button type="button" class="tab active" data-cat="all" aria-pressed="true">All Items</button>
+<button type="button" class="tab" data-cat="seasonal" aria-pressed="false">Seasonal &amp; New</button>
+<button type="button" class="tab" data-cat="fruit" aria-pressed="false">Fruit, Lemon &amp; Slush</button>
+<button type="button" class="tab" data-cat="pistachio" aria-pressed="false">Pistachio Series</button>
+<button type="button" class="tab" data-cat="tea" aria-pressed="false">Tea &amp; Coffee</button>
+<button type="button" class="tab" data-cat="hot" aria-pressed="false">Hot Drinks</button>
+<button type="button" class="tab" data-cat="special" aria-pressed="false">Special</button>
+<button type="button" class="tab" data-cat="icecream" aria-pressed="false">Ice Cream</button>
+<button type="button" class="tab" data-cat="topping" aria-pressed="false">Toppings</button>
+</div>
+<div class="menu-tools">
+<div class="menu-search-wrap"><span class="menu-search-icon" aria-hidden="true">⌕</span><input id="menuSearch" class="menu-search" type="search" placeholder="Search drinks, tea, coffee..." aria-label="Search menu items" autocomplete="off"/></div>
+<span class="menu-results" id="menuResults" aria-live="polite">Preparing menu…</span>
+</div>
+<div class="menu-grid reveal" id="menuGrid">
+<!-- SEASONAL -->
+<article class="dish" data-search="Pomegranate Lemon Tea Tangy pomegranate and fresh lemon over iced tea." data-cat="seasonal">
+<span class="tag">Seasonal</span>
+<img alt="Pomegranate Lemon Tea" class="dish-photo" src="new-pom-lemon.webp" loading="lazy" decoding="async"/>
+<h3>Pomegranate Lemon Tea</h3>
+<p>Tangy pomegranate and fresh lemon over iced tea.</p>
+<div class="price"><span class="pl"><small>L</small>140 EGP / 20 RMB</span></div>
+</article>
+<article class="dish" data-search="Pomegranate Slush Pomegranate blended into a cool, ruby-red slush." data-cat="seasonal">
+<span class="tag">Seasonal</span>
+<img alt="Pomegranate Slush" class="dish-photo" src="new-pom-slush.webp" loading="lazy" decoding="async"/>
+<h3>Pomegranate Slush</h3>
+<p>Pomegranate blended into a cool, ruby-red slush.</p>
+<div class="price"><span class="pl"><small>M</small>160 EGP / 22 RMB</span></div>
+</article>
+<article class="dish" data-search="Mango Coconut Fresh A lighter take on mango and coconut with fresh mango pieces." data-cat="seasonal">
+<span class="tag">New</span>
+<img alt="Mango Coconut Fresh" class="dish-photo" src="new-mango-coconut-fresh.webp" loading="lazy" decoding="async"/>
+<h3>Mango Coconut Fresh</h3>
+<p>A lighter take on mango and coconut with fresh mango pieces.</p>
+<div class="price"><span class="pl"><small>L</small>170 EGP / 23 RMB</span></div>
+</article>
+<article class="dish" data-search="Cream Taro Coconut Milk Creamy taro swirled with fresh coconut milk." data-cat="seasonal">
+<span class="tag">New</span>
+<img alt="Cream Taro Coconut Milk" class="dish-photo" src="new-taro-cold.webp" loading="lazy" decoding="async"/>
+<h3>Cream Taro Coconut Milk</h3>
+<p>Creamy taro swirled with fresh coconut milk.</p>
+<div class="price"><span class="pl"><small>M</small>160 EGP / 22 RMB</span></div>
+</article>
+<!-- FRUIT -->
+<article class="dish" data-search="Mango Coconut Mango and coconut milk blended into a tropical, creamy treat." data-cat="fruit">
+<img alt="Mango Coconut" class="dish-photo" src="drink-24.webp" loading="lazy" decoding="async"/>
+<h3>Mango Coconut</h3>
+<p>Mango and coconut milk blended into a tropical, creamy treat.</p>
+<div class="price"><span class="pl"><small>L</small>170 EGP / 23 RMB</span></div>
+</article>
+<article class="dish" data-search="Mixed Grapefruit Citrusy grapefruit and mixed fruit for a bright, tangy sip." data-cat="fruit">
+<img alt="Mixed Grapefruit" class="dish-photo" src="drink-04.webp" loading="lazy" decoding="async"/>
+<h3>Mixed Grapefruit</h3>
+<p>Citrusy grapefruit and mixed fruit for a bright, tangy sip.</p>
+<div class="price"><span class="pl"><small>L</small>170 EGP / 23 RMB</span></div>
+</article>
+<article class="dish" data-search="Mango Passion Fruit Tangy passion fruit meets sweet mango over iced tea." data-cat="fruit">
+<img alt="Mango Passion Fruit" class="dish-photo" src="drink-46.webp" loading="lazy" decoding="async"/>
+<h3>Mango Passion Fruit</h3>
+<p>Tangy passion fruit meets sweet mango over iced tea.</p>
+<div class="price"><span class="pl"><small>L</small>140 EGP / 20 RMB</span></div>
+</article>
+<article class="dish" data-search="Strawberry Fruit Tea A vibrant mix of strawberry and fresh orange in iced tea." data-cat="fruit">
+<img alt="Strawberry Fruit Tea" class="dish-photo" src="drink-01.webp" loading="lazy" decoding="async"/>
+<h3>Strawberry Fruit Tea</h3>
+<p>A vibrant mix of strawberry and fresh orange in iced tea.</p>
+<div class="price"><span class="pl"><small>L</small>150 EGP / 20 RMB</span></div>
+</article>
+<article class="dish" data-search="Strawberry Milk Shake Thick and creamy strawberry milkshake." data-cat="fruit">
+<img alt="Strawberry Milk Shake" class="dish-photo" src="drink-02.webp" loading="lazy" decoding="async"/>
+<h3>Strawberry Milk Shake</h3>
+<p>Thick and creamy strawberry milkshake.</p>
+<div class="price"><span class="pl"><small>L</small>150 EGP / 20 RMB</span></div>
+</article>
+<article class="dish" data-search="Lemon Green Tea Classic iced green tea with fresh lemon." data-cat="fruit">
+<img alt="Lemon Green Tea" class="dish-photo" src="drink-23.webp" loading="lazy" decoding="async"/>
+<h3>Lemon Green Tea</h3>
+<p>Classic iced green tea with fresh lemon.</p>
+<div class="price"><span class="pl"><small>L</small>120 EGP / 16 RMB</span></div>
+</article>
+<article class="dish" data-search="Cream Lemon Slush Lemon blended with cream for a smooth, tangy slush." data-cat="fruit">
+<img alt="Cream Lemon Slush" class="dish-photo" src="drink-40.webp" loading="lazy" decoding="async"/>
+<h3>Cream Lemon Slush</h3>
+<p>Lemon blended with cream for a smooth, tangy slush.</p>
+<div class="price"><span class="pl"><small>M</small>160 EGP / 22 RMB</span></div>
+</article>
+<article class="dish" data-search="Cantaloupe Slush Sweet cantaloupe blended into a refreshing slush." data-cat="fruit">
+<img alt="Cantaloupe Slush" class="dish-photo" src="drink-15.webp" loading="lazy" decoding="async"/>
+<h3>Cantaloupe Slush</h3>
+<p>Sweet cantaloupe blended into a refreshing slush.</p>
+<div class="price"><span class="pl"><small>M</small>160 EGP / 22 RMB</span></div>
+</article>
+<article class="dish" data-search="Cream Strawberry Slush Strawberries and cream blended into a thick slush." data-cat="fruit">
+<img alt="Cream Strawberry Slush" class="dish-photo" src="drink-25.webp" loading="lazy" decoding="async"/>
+<h3>Cream Strawberry Slush</h3>
+<p>Strawberries and cream blended into a thick slush.</p>
+<div class="price"><span class="pl"><small>M</small>160 EGP / 22 RMB</span></div>
+</article>
+<article class="dish" data-search="Coffee Slush Blended iced coffee for a refreshing caffeine kick." data-cat="fruit">
+<img alt="Coffee Slush" class="dish-photo" src="drink-17.webp" loading="lazy" decoding="async"/>
+<h3>Coffee Slush</h3>
+<p>Blended iced coffee for a refreshing caffeine kick.</p>
+<div class="price"><span class="pl"><small>M</small>160 EGP / 22 RMB</span></div>
+</article>
+<!-- PISTACHIO -->
+<article class="dish" data-search="Pistachio Spanish Latte Spanish latte with a rich pistachio twist." data-cat="pistachio">
+<img alt="Pistachio Spanish Latte" class="dish-photo" src="drink-13.webp" loading="lazy" decoding="async"/>
+<h3>Pistachio Spanish Latte</h3>
+<p>Spanish latte with a rich pistachio twist.</p>
+<div class="price"><span class="pl"><small>L</small>170 EGP / 23 RMB</span></div>
+</article>
+<article class="dish" data-search="Mango Pistachio Mango and pistachio blended into a unique, nutty treat." data-cat="pistachio">
+<span class="tag">New</span>
+<img alt="Mango Pistachio" class="dish-photo" src="drink-14.webp" loading="lazy" decoding="async"/>
+<h3>Mango Pistachio</h3>
+<p>Mango and pistachio blended into a unique, nutty treat.</p>
+<div class="price"><span class="pl"><small>L</small>170 EGP / 23 RMB</span></div>
+</article>
+<article class="dish" data-search="Pistachio Peach Milk Tea Light peach milk tea crowned with pistachio cream." data-cat="pistachio">
+<img alt="Pistachio Peach Milk Tea" class="dish-photo" src="new-pistachio-peach-milk-cold.webp" loading="lazy" decoding="async"/>
+<h3>Pistachio Peach Milk Tea</h3>
+<p>Light peach milk tea crowned with pistachio cream.</p>
+<div class="price"><span class="pl"><small>L</small>160 EGP / 22 RMB</span></div>
+</article>
+<article class="dish" data-search="Pistachio Jasmine Milk Tea Fragrant jasmine milk tea crowned with pistachio cream." data-cat="pistachio">
+<img alt="Pistachio Jasmine Milk Tea" class="dish-photo" src="new-pistachio-jasmine-milk-cold.webp" loading="lazy" decoding="async"/>
+<h3>Pistachio Jasmine Milk Tea</h3>
+<p>Fragrant jasmine milk tea crowned with pistachio cream.</p>
+<div class="price"><span class="pl"><small>L</small>160 EGP / 22 RMB</span></div>
+</article>
+<article class="dish" data-search="Pistachio Peach Tea Peach tea topped with pistachio cream foam." data-cat="pistachio">
+<img alt="Pistachio Peach Tea" class="dish-photo" src="drink-44.webp" loading="lazy" decoding="async"/>
+<h3>Pistachio Peach Tea</h3>
+<p>Peach tea topped with pistachio cream foam.</p>
+<div class="price"><span class="pl"><small>L</small>130 EGP / 17 RMB</span></div>
+</article>
+<article class="dish" data-search="Pistachio Jasmine Tea Jasmine tea topped with pistachio cream foam." data-cat="pistachio">
+<img alt="Pistachio Jasmine Tea" class="dish-photo" src="drink-36.webp" loading="lazy" decoding="async"/>
+<h3>Pistachio Jasmine Tea</h3>
+<p>Jasmine tea topped with pistachio cream foam.</p>
+<div class="price"><span class="pl"><small>L</small>130 EGP / 17 RMB</span></div>
+</article>
+<article class="dish" data-search="Strawberry Pistachio Strawberry and pistachio blended into a creamy delight." data-cat="pistachio">
+<img alt="Strawberry Pistachio" class="dish-photo" src="drink-10.webp" loading="lazy" decoding="async"/>
+<h3>Strawberry Pistachio</h3>
+<p>Strawberry and pistachio blended into a creamy delight.</p>
+<div class="price"><span class="pl"><small>L</small>170 EGP / 23 RMB</span><span class="pl"><small>M</small>150 EGP / 20 RMB</span></div>
+</article>
+<article class="dish" data-search="Coffee Pistachio Coffee blended with pistachio for a unique flavour." data-cat="pistachio">
+<img alt="Coffee Pistachio" class="dish-photo" src="drink-12.webp" loading="lazy" decoding="async"/>
+<h3>Coffee Pistachio</h3>
+<p>Coffee blended with pistachio for a unique flavour.</p>
+<div class="price"><span class="pl"><small>M</small>120 EGP / 16 RMB</span></div>
+</article>
+<article class="dish" data-search="Cocoa Pistachio Cocoa and pistachio combined for a rich, nutty drink." data-cat="pistachio">
+<img alt="Cocoa Pistachio" class="dish-photo" src="drink-11.webp" loading="lazy" decoding="async"/>
+<h3>Cocoa Pistachio</h3>
+<p>Cocoa and pistachio combined for a rich, nutty drink.</p>
+<div class="price"><span class="pl"><small>M</small>160 EGP / 22 RMB</span></div>
+</article>
+<!-- TEA -->
+<article class="dish" data-search="Spanish Latte Espresso, condensed milk and steamed milk — sweet and strong." data-cat="tea">
+<span class="tag">Bestseller</span>
+<img alt="Spanish Latte" class="dish-photo" src="drink-34.webp" loading="lazy" decoding="async"/>
+<h3>Spanish Latte</h3>
+<p>Espresso, condensed milk and steamed milk — sweet and strong.</p>
+<div class="price"><span class="pl"><small>L</small>150 EGP / 20 RMB</span><span class="pl"><small>M</small>120 EGP / 16 RMB</span></div>
+</article>
+<article class="dish" data-search="Creamy Coffee Smooth, creamy coffee for a rich pick-me-up." data-cat="tea">
+<img alt="Creamy Coffee" class="dish-photo" src="drink-27.webp" loading="lazy" decoding="async"/>
+<h3>Creamy Coffee</h3>
+<p>Smooth, creamy coffee for a rich pick-me-up.</p>
+<div class="price"><span class="pl"><small>M</small>120 EGP / 16 RMB</span></div>
+</article>
+<article class="dish" data-search="Creamy Cocoa Rich cocoa topped with a silky cream cap." data-cat="tea">
+<img alt="Creamy Cocoa" class="dish-photo" src="new-creamy-cocoa.webp" loading="lazy" decoding="async"/>
+<h3>Creamy Cocoa</h3>
+<p>Rich cocoa topped with a silky cream cap.</p>
+<div class="price"><span class="pl"><small>M</small>160 EGP / 22 RMB</span></div>
+</article>
+<article class="dish" data-search="Brown Sugar Milk Tea Caramelised brown sugar syrup, creamy milk and warm boba pearls." data-cat="tea">
+<span class="tag">Bestseller</span>
+<img alt="Brown Sugar Milk Tea" class="dish-photo" src="drink-07.webp" loading="lazy" decoding="async"/>
+<h3>Brown Sugar Milk Tea</h3>
+<p>Caramelised brown sugar syrup, creamy milk and warm boba pearls.</p>
+<div class="price"><span class="pl"><small>L</small>140 EGP / 20 RMB</span><span class="pl"><small>M</small>120 EGP / 16 RMB</span></div>
+</article>
+<article class="dish" data-search="Brown Sugar Pudding Milk Tea Classic milk tea with boba pearls and silky pudding." data-cat="tea">
+<img alt="Brown Sugar Pudding Milk Tea" class="dish-photo" src="drink-38.webp" loading="lazy" decoding="async"/>
+<h3>Brown Sugar Pudding Milk Tea</h3>
+<p>Classic milk tea with boba pearls and silky pudding.</p>
+<div class="price"><span class="pl"><small>L</small>160 EGP / 22 RMB</span><span class="pl"><small>M</small>140 EGP / 20 RMB</span></div>
+</article>
+<article class="dish" data-search="Cream Peach Tea Oolong tea with peach and a cream foam top." data-cat="tea">
+<img alt="Cream Peach Tea" class="dish-photo" src="drink-45.webp" loading="lazy" decoding="async"/>
+<h3>Cream Peach Tea</h3>
+<p>Oolong tea with peach and a cream foam top.</p>
+<div class="price"><span class="pl"><small>L</small>130 EGP / 17 RMB</span></div>
+</article>
+<article class="dish" data-search="Cream Jasmine Tea Jasmine tea topped with a light cream foam." data-cat="tea">
+<img alt="Cream Jasmine Tea" class="dish-photo" src="drink-28.webp" loading="lazy" decoding="async"/>
+<h3>Cream Jasmine Tea</h3>
+<p>Jasmine tea topped with a light cream foam.</p>
+<div class="price"><span class="pl"><small>L</small>130 EGP / 17 RMB</span></div>
+</article>
+<article class="dish" data-search="Peach Milk Tea Light peach milk tea, smooth and refreshing." data-cat="tea">
+<img alt="Peach Milk Tea" class="dish-photo" src="drink-18.webp" loading="lazy" decoding="async"/>
+<h3>Peach Milk Tea</h3>
+<p>Light peach milk tea, smooth and refreshing.</p>
+<div class="price"><span class="pl"><small>L</small>140 EGP / 20 RMB</span></div>
+</article>
+<article class="dish" data-search="Jasmine Milk Tea Fragrant jasmine milk tea, light and floral." data-cat="tea">
+<img alt="Jasmine Milk Tea" class="dish-photo" src="drink-16.webp" loading="lazy" decoding="async"/>
+<h3>Jasmine Milk Tea</h3>
+<p>Fragrant jasmine milk tea, light and floral.</p>
+<div class="price"><span class="pl"><small>L</small>140 EGP / 20 RMB</span></div>
+</article>
+<!-- HOT -->
+<article class="dish" data-search="Spanish Latte Espresso, condensed milk and steamed milk — sweet and strong." data-cat="hot">
+<img alt="Spanish Latte" class="dish-photo" src="new-hot-spanish.webp" loading="lazy" decoding="async"/>
+<h3>Spanish Latte</h3>
+<p>Espresso, condensed milk and steamed milk — sweet and strong.</p>
+<div class="price"><span class="pl"><small>M</small>150 EGP / 20 RMB</span></div>
+</article>
+<article class="dish" data-search="Spanish Latte Cream Hot Spanish latte finished with a silky cream cap." data-cat="hot">
+<img alt="Spanish Latte Cream" class="dish-photo" src="new-hot-spanish-cream.webp" loading="lazy" decoding="async"/>
+<h3>Spanish Latte Cream</h3>
+<p>Hot Spanish latte finished with a silky cream cap.</p>
+<div class="price"><span class="pl"><small>M</small>170 EGP / 23 RMB</span></div>
+</article>
+<article class="dish" data-search="Spanish Latte Pistachio Hot Spanish latte topped with pistachio cream." data-cat="hot">
+<img alt="Spanish Latte Pistachio" class="dish-photo" src="new-hot-spanish-pistachio.webp" loading="lazy" decoding="async"/>
+<h3>Spanish Latte Pistachio</h3>
+<p>Hot Spanish latte topped with pistachio cream.</p>
+<div class="price"><span class="pl"><small>M</small>180 EGP / 24 RMB</span></div>
+</article>
+<article class="dish" data-search="Coffee Cream Hot coffee topped with a smooth cream cap." data-cat="hot">
+<img alt="Coffee Cream" class="dish-photo" src="new-hot-coffee-cream.webp" loading="lazy" decoding="async"/>
+<h3>Coffee Cream</h3>
+<p>Hot coffee topped with a smooth cream cap.</p>
+<div class="price"><span class="pl"><small>M</small>160 EGP / 22 RMB</span></div>
+</article>
+<article class="dish" data-search="Coffee Pistachio Hot coffee topped with pistachio cream." data-cat="hot">
+<img alt="Coffee Pistachio" class="dish-photo" src="new-hot-coffee-pistachio.webp" loading="lazy" decoding="async"/>
+<h3>Coffee Pistachio</h3>
+<p>Hot coffee topped with pistachio cream.</p>
+<div class="price"><span class="pl"><small>M</small>170 EGP / 23 RMB</span></div>
+</article>
+<article class="dish" data-search="Brown Sugar Milk Tea Warm brown sugar milk tea with chewy boba pearls." data-cat="hot">
+<img alt="Brown Sugar Milk Tea" class="dish-photo" src="new-hot-brown-sugar.webp" loading="lazy" decoding="async"/>
+<h3>Brown Sugar Milk Tea</h3>
+<p>Warm brown sugar milk tea with chewy boba pearls.</p>
+<div class="price"><span class="pl"><small>M</small>150 EGP / 20 RMB</span></div>
+</article>
+<article class="dish" data-search="Brown Sugar Pudding Milk Tea Warm brown sugar milk tea with boba and silky pudding." data-cat="hot">
+<img alt="Brown Sugar Pudding Milk Tea" class="dish-photo" src="new-hot-brown-sugar-pudding.webp" loading="lazy" decoding="async"/>
+<h3>Brown Sugar Pudding Milk Tea</h3>
+<p>Warm brown sugar milk tea with boba and silky pudding.</p>
+<div class="price"><span class="pl"><small>M</small>170 EGP / 23 RMB</span></div>
+</article>
+<article class="dish" data-search="Peach Milk Tea Light, warm peach milk tea." data-cat="hot">
+<img alt="Peach Milk Tea" class="dish-photo" src="new-hot-peach-milk.webp" loading="lazy" decoding="async"/>
+<h3>Peach Milk Tea</h3>
+<p>Light, warm peach milk tea.</p>
+<div class="price"><span class="pl"><small>M</small>140 EGP / 20 RMB</span></div>
+</article>
+<article class="dish" data-search="Jasmine Milk Tea Light, warm jasmine milk tea." data-cat="hot">
+<img alt="Jasmine Milk Tea" class="dish-photo" src="new-hot-jasmine-milk.webp" loading="lazy" decoding="async"/>
+<h3>Jasmine Milk Tea</h3>
+<p>Light, warm jasmine milk tea.</p>
+<div class="price"><span class="pl"><small>M</small>140 EGP / 20 RMB</span></div>
+</article>
+<article class="dish" data-search="Cocoa Cream Hot cocoa finished with a silky cream cap." data-cat="hot">
+<img alt="Cocoa Cream" class="dish-photo" src="new-hot-cocoa-cream.webp" loading="lazy" decoding="async"/>
+<h3>Cocoa Cream</h3>
+<p>Hot cocoa finished with a silky cream cap.</p>
+<div class="price"><span class="pl"><small>M</small>170 EGP / 23 RMB</span></div>
+</article>
+<article class="dish" data-search="Cocoa Pistachio Hot cocoa topped with pistachio cream." data-cat="hot">
+<img alt="Cocoa Pistachio" class="dish-photo" src="new-hot-cocoa-pistachio.webp" loading="lazy" decoding="async"/>
+<h3>Cocoa Pistachio</h3>
+<p>Hot cocoa topped with pistachio cream.</p>
+<div class="price"><span class="pl"><small>M</small>180 EGP / 24 RMB</span></div>
+</article>
+<article class="dish" data-search="Cream Taro Coconut Milk Warm taro and coconut milk with a cream cap." data-cat="hot">
+<img alt="Cream Taro Coconut Milk" class="dish-photo" src="new-hot-taro-coconut.webp" loading="lazy" decoding="async"/>
+<h3>Cream Taro Coconut Milk</h3>
+<p>Warm taro and coconut milk with a cream cap.</p>
+<div class="price"><span class="pl"><small>M</small>170 EGP / 23 RMB</span></div>
+</article>
+<article class="dish" data-search="Pistachio Peach Milk Tea Warm peach milk tea topped with pistachio cream." data-cat="hot">
+<img alt="Pistachio Peach Milk Tea" class="dish-photo" src="new-hot-pistachio-peach-milk.webp" loading="lazy" decoding="async"/>
+<h3>Pistachio Peach Milk Tea</h3>
+<p>Warm peach milk tea topped with pistachio cream.</p>
+<div class="price"><span class="pl"><small>M</small>170 EGP / 23 RMB</span></div>
+</article>
+<article class="dish" data-search="Pistachio Jasmine Milk Tea Warm jasmine milk tea topped with pistachio cream." data-cat="hot">
+<img alt="Pistachio Jasmine Milk Tea" class="dish-photo" src="new-hot-pistachio-jasmine-milk.webp" loading="lazy" decoding="async"/>
+<h3>Pistachio Jasmine Milk Tea</h3>
+<p>Warm jasmine milk tea topped with pistachio cream.</p>
+<div class="price"><span class="pl"><small>M</small>170 EGP / 23 RMB</span></div>
+</article>
+<article class="dish" data-search="Cream Peach Milk Tea Warm peach milk tea finished with a cream cap." data-cat="hot">
+<img alt="Cream Peach Milk Tea" class="dish-photo" src="new-hot-cream-peach-milk.webp" loading="lazy" decoding="async"/>
+<h3>Cream Peach Milk Tea</h3>
+<p>Warm peach milk tea finished with a cream cap.</p>
+<div class="price"><span class="pl"><small>M</small>160 EGP / 22 RMB</span></div>
+</article>
+<article class="dish" data-search="Cream Jasmine Milk Tea Warm jasmine milk tea finished with a cream cap." data-cat="hot">
+<img alt="Cream Jasmine Milk Tea" class="dish-photo" src="new-hot-cream-jasmine-milk.webp" loading="lazy" decoding="async"/>
+<h3>Cream Jasmine Milk Tea</h3>
+<p>Warm jasmine milk tea finished with a cream cap.</p>
+<div class="price"><span class="pl"><small>M</small>160 EGP / 22 RMB</span></div>
+</article>
+<article class="dish" data-search="Cream Strawberry Ceylon Tea Warm Ceylon tea with strawberry and a cream cap." data-cat="hot">
+<img alt="Cream Strawberry Ceylon Tea" class="dish-photo" src="new-hot-strawberry-ceylon.webp" loading="lazy" decoding="async"/>
+<h3>Cream Strawberry Ceylon Tea</h3>
+<p>Warm Ceylon tea with strawberry and a cream cap.</p>
+<div class="price"><span class="pl"><small>M</small>160 EGP / 22 RMB</span></div>
+</article>
+<article class="dish" data-search="Taro Pistachio Warm taro milk topped with pistachio cream." data-cat="hot">
+<img alt="Taro Pistachio" class="dish-photo" src="new-hot-taro-pistachio.webp" loading="lazy" decoding="async"/>
+<h3>Taro Pistachio</h3>
+<p>Warm taro milk topped with pistachio cream.</p>
+<div class="price"><span class="pl"><small>M</small>180 EGP / 24 RMB</span></div>
+</article>
+<!-- SPECIAL HOT TEAS -->
+<article class="dish" data-search="Hot Mandarin Ceylon Tea Mandarin orange infused hot Ceylon tea special" data-cat="special">
+<span class="tag">Special</span>
+<img alt="Hot Mandarin Ceylon Tea" class="dish-photo" src="special-hot-mandarin.png" loading="lazy" decoding="async"/>
+<h3>Hot Mandarin Ceylon Tea</h3>
+<p>A warming Ceylon tea infused with the bright aroma of mandarin orange.</p>
+<div class="price"><span class="pl"><small>M</small>120 EGP / 16 RMB</span></div>
+</article>
+<article class="dish" data-search="Orange Black Tea orange infused black tea special" data-cat="special">
+<span class="tag">Special</span>
+<img alt="Orange Black Tea" class="dish-photo" src="special-orange-black-tea.png" loading="lazy" decoding="async"/>
+<h3>Orange Black Tea</h3>
+<p>Classic black tea paired with sweet, citrusy orange.</p>
+<div class="price"><span class="pl"><small>L</small>120 EGP / 15 RMB</span></div>
+</article>
+<article class="dish" data-search="Lemon Black Tea black tea with fresh lemon special" data-cat="special">
+<span class="tag">Special</span>
+<img alt="Lemon Black Tea" class="dish-photo" src="special-lemon-black-tea.png" loading="lazy" decoding="async"/>
+<h3>Lemon Black Tea</h3>
+<p>Bold black tea balanced with a fresh, zesty lemon finish.</p>
+<div class="price"><span class="pl"><small>L</small>100 EGP / 12 RMB</span></div>
+</article>
+<!-- ICECREAM -->
+<article class="dish" data-search="Super Duo Ice Cream Chocolate and milk soft-serve twisted together." data-cat="icecream">
+<img alt="Super Duo Ice Cream" class="dish-photo" src="new-ice-duo.webp" loading="lazy" decoding="async"/>
+<h3>Super Duo Ice Cream</h3>
+<p>Chocolate and milk soft-serve twisted together.</p>
+<div class="price"><span class="pl"><small>Cup</small>130 EGP / 17 RMB</span></div>
+</article>
+<article class="dish" data-search="Chocolate Ice Cream Rich, creamy chocolate soft-serve." data-cat="icecream">
+<img alt="Chocolate Ice Cream" class="dish-photo" src="new-ice-choc.webp" loading="lazy" decoding="async"/>
+<h3>Chocolate Ice Cream</h3>
+<p>Rich, creamy chocolate soft-serve.</p>
+<div class="price"><span class="pl"><small>Cup</small>130 EGP / 17 RMB</span></div>
+</article>
+<article class="dish" data-search="Milk Ice Cream Classic creamy milk soft-serve." data-cat="icecream">
+<img alt="Milk Ice Cream" class="dish-photo" src="new-ice-milk.webp" loading="lazy" decoding="async"/>
+<h3>Milk Ice Cream</h3>
+<p>Classic creamy milk soft-serve.</p>
+<div class="price"><span class="pl"><small>Cup</small>120 EGP / 16 RMB</span></div>
+</article>
+<!-- TOPPING -->
+<article class="dish" data-search="Jelly Boba Light, crunchy crystal jelly pearls." data-cat="topping">
+<img alt="Jelly Boba" class="dish-photo" src="drink-05.webp" loading="lazy" decoding="async"/>
+<h3>Jelly Boba</h3>
+<p>Light, crunchy crystal jelly pearls.</p>
+<div class="price"><span class="pl">20 EGP / 3 RMB</span></div>
+</article>
+<article class="dish" data-search="Popping Boba Bursting pearls full of juicy flavour." data-cat="topping">
+<img alt="Popping Boba" class="dish-photo" src="new-topping-popping.webp" loading="lazy" decoding="async"/>
+<h3>Popping Boba</h3>
+<p>Bursting pearls full of juicy flavour.</p>
+<div class="price"><span class="pl">20 EGP / 3 RMB</span></div>
+</article>
+<article class="dish" data-search="Coconut Boba Soft, chewy coconut pearls." data-cat="topping">
+<img alt="Coconut Boba" class="dish-photo" src="new-topping-coconut.webp" loading="lazy" decoding="async"/>
+<h3>Coconut Boba</h3>
+<p>Soft, chewy coconut pearls.</p>
+<div class="price"><span class="pl">20 EGP / 3 RMB</span></div>
+</article>
+<article class="dish" data-search="Sago Small, soft sago pearls." data-cat="topping">
+<img alt="Sago" class="dish-photo" src="drink-19.webp" loading="lazy" decoding="async"/>
+<h3>Sago</h3>
+<p>Small, soft sago pearls.</p>
+<div class="price"><span class="pl">20 EGP / 3 RMB</span></div>
+</article>
+<article class="dish" data-search="Pistachio Foam Rich and nutty pistachio cream foam." data-cat="topping">
+<img alt="Pistachio Foam" class="dish-photo" src="drink-30.webp" loading="lazy" decoding="async"/>
+<h3>Pistachio Foam</h3>
+<p>Rich and nutty pistachio cream foam.</p>
+<div class="price"><span class="pl">20 EGP / 3 RMB</span></div>
+</article>
+<article class="dish" data-search="Cream Foam Classic sweet cream foam topping." data-cat="topping">
+<img alt="Cream Foam" class="dish-photo" src="drink-29.webp" loading="lazy" decoding="async"/>
+<h3>Cream Foam</h3>
+<p>Classic sweet cream foam topping.</p>
+<div class="price"><span class="pl">20 EGP / 3 RMB</span></div>
+</article>
+<article class="dish" data-search="Pudding Silky, sweet pudding cubes." data-cat="topping">
+<img alt="Pudding" class="dish-photo" src="drink-47.webp" loading="lazy" decoding="async"/>
+<h3>Pudding</h3>
+<p>Silky, sweet pudding cubes.</p>
+<div class="price"><span class="pl">20 EGP / 3 RMB</span></div>
+</article>
+<article class="dish" data-search="Boba Chewy tapioca pearls." data-cat="topping">
+<img alt="Boba" class="dish-photo" src="drink-09.webp" loading="lazy" decoding="async"/>
+<h3>Boba</h3>
+<p>Chewy tapioca pearls.</p>
+<div class="price"><span class="pl">20 EGP / 3 RMB</span></div>
+</article>
+</div>
+<div class="menu-note reveal">
+<p><strong>Sizes:</strong> L = 700 ml · M = 500 ml. Hot drinks are served in paper cups.</p>
+<p style="margin-top:8px"><strong>Allergy Warning:</strong> Contains Dairy, Fruit, etc. Ask before ordering.</p>
+<p style="margin-top:8px">Images shown are for display purposes only. Prices and availability may vary by branch.</p>
+</div>
+</div>
+</section>
+<!-- ================= BRANCHES ================= -->
+<main class="section" id="branches" style="padding-top:0">
+<div class="container">
+<div class="section-head row reveal">
+<div>
+<div class="eyebrow">Our locations</div>
+<h2>Find your Neferdidi</h2>
+<p>See every branch on the map, search by name or area, then tap to open the location in Google Maps.</p>
+</div>
+<div class="count" id="count">13 LOCATIONS</div>
+</div>
+<div class="toolbar reveal">
+<div class="search">
+<input aria-label="Search branches" id="search" placeholder="Search by branch or area..." type="search"/>
+</div>
+<select aria-label="Filter by area" class="filter" id="area">
+<option value="all">All areas</option>
+<option value="cairo">Cairo</option>
+<option value="newcairo">New Cairo</option>
+<option value="outside">Outside Cairo</option>
+</select>
+</div>
+<div class="map-wrap reveal" id="map-wrap">
+<div id="branch-map" role="region" aria-label="Map of Neferdidi branches"></div>
+<div class="map-fallback">The map couldn't load. <a href="https://www.google.com/maps/search/Neferdidi" rel="noopener" target="_blank">Search Neferdidi on Google Maps ↗</a></div>
+</div>
+<div class="grid" id="grid">
+<article class="branch" data-lat="30.0734298" data-lng="31.3473235" data-area="cairo" data-name="city stars masaken al mohandessin nasr city">
+<div class="card-top"></div>
+<div class="card-content">
+<div class="branch-number">01 / Cairo</div>
+<h3>City Stars</h3>
+<p class="address">Masaken Al Mohandesin, Nasr City</p>
+<div class="actions"><a class="map-btn primary" href="https://www.google.com/maps/place/Neferdidi/@30.0734053,31.3473583,17.75z/data=!4m6!3m5!1s0x14583f0055443ac1:0xb023b73282393532!8m2!3d30.0734298!4d31.3473235!16s%2Fg%2F11yvcx_s3_!18m1!1e1?entry=ttu&amp;g_ep=EgoyMDI2MTAwNy4wIKXMDSoASAFQAw%3D%3D" rel="noopener" target="_blank">↗ Open in Maps</a><button class="map-btn secondary show-on-map" type="button">◎ Show on map</button></div>
+</div>
+</article>
+<article class="branch" data-lat="29.9627" data-lng="31.2767" data-approx="1" data-area="cairo" data-name="maadi street of happiness maadi city center entrance">
+<div class="card-top"></div>
+<div class="card-content">
+<div class="branch-number">02 / Cairo</div>
+<h3>Maadi</h3>
+<p class="address">In front of Street of Happiness, Maadi City Center Entrance</p>
+<div class="actions"><a class="map-btn primary" href="https://www.google.com/maps/place/Neferdidi+Maadi,+infront+of,+Street+Of+Happiness,+Maadi+City+Center+Entrance,+Maadi,+Cairo+Governorate/data=!4m2!3m1!1s0x1458397f0593a4c7:0x3dd2337ac818cd5b!18m1!1e1?utm_source=mstt_1&amp;entry=gps&amp;coh=192189&amp;g_ep=CAESBzI2LjQwLjAYACCenQoq2wEsMTAwODQyOTQyLDk0MjY3NzI3LDk0MjkyMTk1LDk0Mjk5NTMyLDEwMDc5NjQ5OCwxMDA3OTc2NjEsMTAwNzk2NTM1LDk0MjgwNTc2LDk0MjA3Mzk0LDk0MjA3NTA2LDk0MjA4NTA2LDk0MjE4NjUzLDk0MjI5ODM5LDEwMDgwODY1NCw5NDI3NTE2OCw5NDI3OTYxOSwxMDA4MzU3MDQsMTAwODI1MDI1LDEwMDgyMDIzNywxMDA4MjI0OTQsMTAwODI3OTc1LDEwMDgzODM1OSwxMjE4MTY0NjFCAkVH&amp;skid=fac3bc88-920d-4d39-aced-502c2816f140" rel="noopener" target="_blank">↗ Open in Maps</a><button class="map-btn secondary show-on-map" type="button">◎ Show on map</button></div>
+</div>
+</article>
+<article class="branch" data-lat="30.0478" data-lng="31.2336" data-approx="1" data-area="cairo" data-name="egyptian museum tahrir square wasim hasan qasr el nil downtown">
+<div class="card-top"></div>
+<div class="card-content">
+<div class="branch-number">03 / Cairo</div>
+<h3>The Egyptian Museum</h3>
+<p class="address">Tahrir Square, Wasim Hasan, Qasr El Nil, Downtown Cairo</p>
+<div class="actions"><a class="map-btn primary" href="https://www.google.com/maps/place/26WM%2BQ73+Neferdidi+-The+Egyptian+Museum,+%D9%85%D9%8A%D8%AF%D8%A7%D9%86+%D8%A7%D9%84%D8%AA%D8%AD%D8%B1%D9%8A%D8%B1,+Wasim+Hasan,+Ismailia,+Qasr+El+Nil,+Cairo+Governorate+4272083%E2%80%AD/data=!4m2!3m1!1s0x1458410036441b3b:0xa19d326d16f62e8!18m1!1e1?utm_source=mstt_1&amp;entry=gps&amp;coh=192189&amp;g_ep=CAESBzI2LjQwLjAYACCenQoq2wEsMTAwODQyOTQyLDk0MjY3NzI3LDk0MjkyMTk1LDk0Mjk5NTMyLDEwMDc5NjQ5OCwxMDA3OTc3NjEsMTAwNzk2NTM1LDk0MjgwNTc2LDk0MjA3Mzk0LDk0MjA3NTA2LDk0MjA4NTA2LDk0MjE4NjUzLDk0MjI5ODM5LDEwMDgwODY1NCw5NDI3NTE2OCw5NDI3OTYxOSwxMDA4MzU3MDQsMTAwODI1MDI1LDEwMDgyMDIzNywxMDA4MjI0OTQsMTAwODI3OTc1LDEwMDgzODM1OSwxMjE4MTY0NjFCAkVH&amp;skid=72b572dd-a4a5-4c3c-9152-eae404419db4" rel="noopener" target="_blank">↗ Open in Maps</a><button class="map-btn secondary show-on-map" type="button">◎ Show on map</button></div>
+</div>
+</article>
+<article class="branch" data-lat="30.0163764" data-lng="31.3897003" data-area="cairo" data-name="fuel up el moshir tantawy axis al hay al asher nasr city">
+<div class="card-top"></div>
+<div class="card-content">
+<div class="branch-number">04 / Cairo</div>
+<h3>Neferdidi Fuel Up</h3>
+<p class="address">El-Moshir Tantawy Axis, Al Hay Al Asher, Nasr City</p>
+<div class="actions"><a class="map-btn primary" href="https://www.google.com/maps/place/Neferdidi+(Fuel+Up)/@30.0163764,31.3897003,17z/data=!3m1!4b1!4m6!3m5!1s0x14583dd6fd4535eb:0x49f2ce54b3b1ce66!8m2!3d30.0163764!4d31.3897003!16s%2Fg%2F11zwqvs2vs!18m1!1e1?entry=ttu&amp;g_ep=EgoyMDI2MTAwNy4wIKXMDSoASAFQAw%3D%3D" rel="noopener" target="_blank">↗ Open in Maps</a><button class="map-btn secondary show-on-map" type="button">◎ Show on map</button></div>
+</div>
+</article>
+<article class="branch" data-lat="30.3190615" data-lng="31.7377685" data-area="outside" data-name="10th of ramadan misr el nour road">
+<div class="card-top"></div>
+<div class="card-content">
+<div class="branch-number">05 / 10th of Ramadan</div>
+<h3>10th of Ramadan</h3>
+<p class="address">Misr El Nour Road, 10th of Ramadan Second</p>
+<div class="actions"><a class="map-btn primary" href="https://www.google.com/maps/place/Neferdidi/@30.3190615,31.7377685,17z/data=!3m1!4b1!4m6!3m5!1s0x14f80716072b166d:0xbf64b5e7502cfb0d!8m2!3d30.3190615!4d31.7377685!16s%2Fg%2F11nvjtg7tb!18m1!1e1?entry=ttu&amp;g_ep=EgoyMDI2MTAwNy4wIKXMDSoASAFQAw%3D%3D" rel="noopener" target="_blank">↗ Open in Maps</a><button class="map-btn secondary show-on-map" type="button">◎ Show on map</button></div>
+</div>
+</article>
+<article class="branch" data-lat="30.6203611" data-lng="32.2853221" data-area="outside" data-name="ismailia 3 the ring road el sheikh zayed">
+<div class="card-top"></div>
+<div class="card-content">
+<div class="branch-number">06 / Ismailia</div>
+<h3>Ismailia 3</h3>
+<p class="address">The Ring Road, El Sheikh Zayed, Ismailia 3</p>
+<div class="actions"><a class="map-btn primary" href="https://www.google.com/maps/place/Neferdidi/@30.6203611,32.2853221,17z/data=!3m1!4b1!4m6!3m5!1s0x14f859ed9e10db63:0x7fa3b16c67bdc0c0!8m2!3d30.6203611!4d32.2853221!16s%2Fg%2F11zfkp3dq0!18m1!1e1?entry=ttu&amp;g_ep=EgoyMDI2MTAwNy4wIKXMDSoASAFQAw%3D%3D" rel="noopener" target="_blank">↗ Open in Maps</a><button class="map-btn secondary show-on-map" type="button">◎ Show on map</button></div>
+</div>
+</article>
+<article class="branch" data-lat="30.029" data-lng="31.472" data-approx="1" data-area="newcairo" data-name="park mall new cairo cairo festival new cairo 1">
+<div class="card-top"></div>
+<div class="card-content">
+<div class="branch-number">07 / New Cairo</div>
+<h3>Park Mall</h3>
+<p class="address">Park Mall, New Cairo 1</p>
+<div class="actions"><a class="map-btn primary" href="https://www.google.com/maps/place/Cairo+Governorate,+New+Cairo+1,+Neferdidi+park+mall/data=!4m2!3m1!1s0x145823f5e1801a31:0x630cff2b20c6e3" rel="noopener" target="_blank">↗ Open in Maps</a><button class="map-btn secondary show-on-map" type="button">◎ Show on map</button></div>
+</div>
+</article>
+<article class="branch" data-lat="30.0555" data-lng="31.338" data-approx="1" data-area="cairo" data-name="nasr city helmy abd el aaty eighth district">
+<div class="card-top"></div>
+<div class="card-content">
+<div class="branch-number">08 / Cairo</div>
+<h3>Nasr City – 8th District</h3>
+<p class="address">Helmy Abd El-Aaty Street, Al Manteqah Ath Thamenah, Nasr City</p>
+<div class="actions"><a class="map-btn primary" href="https://maps.app.goo.gl/2yRkEEXpxKFH7shC7" rel="noopener" target="_blank">↗ Open in Maps</a><button class="map-btn secondary show-on-map" type="button">◎ Show on map</button></div>
+</div>
+</article>
+<article class="branch" data-lat="30.0287" data-lng="31.2611" data-approx="1" data-area="cairo" data-name="citadel salah el din castle">
+<div class="card-top"></div>
+<div class="card-content">
+<div class="branch-number">09 / Cairo</div>
+<h3>Citadel</h3>
+<p class="address">Saladin Citadel area, Cairo</p>
+<div class="actions"><a class="map-btn primary" href="https://maps.app.goo.gl/CM1u1bDSRvHQ3LaF7" rel="noopener" target="_blank">↗ Open in Maps</a><button class="map-btn secondary show-on-map" type="button">◎ Show on map</button></div>
+</div>
+</article>
+<article class="branch" data-lat="30.0985" data-lng="31.372" data-approx="1" data-area="cairo" data-name="sheraton ankara sheraton al matar el nozha">
+<div class="card-top"></div>
+<div class="card-content">
+<div class="branch-number">10 / Cairo</div>
+<h3>Sheraton</h3>
+<p class="address">Ankara Street, Sheraton Al Matar, El Nozha</p>
+<div class="actions"><a class="map-btn primary" href="https://maps.app.goo.gl/egJypythCJpe4Asz8" rel="noopener" target="_blank">↗ Open in Maps</a><button class="map-btn secondary show-on-map" type="button">◎ Show on map</button></div>
+</div>
+</article>
+<article class="branch" data-lat="30.064" data-lng="31.342" data-approx="1" data-area="cairo" data-name="child's park childs park aku plaza nasr city">
+<div class="card-top"></div>
+<div class="card-content">
+<div class="branch-number">11 / Cairo</div>
+<h3>Child’s Park</h3>
+<p class="address">Aku Plaza, Abou Dawoud Al Zaheri Street, 6th District, Nasr City</p>
+<div class="actions"><a class="map-btn primary" href="https://maps.app.goo.gl/RYmEf6sU4jKnjgbA7" rel="noopener" target="_blank">↗ Open in Maps</a><button class="map-btn secondary show-on-map" type="button">◎ Show on map</button></div>
+</div>
+</article>
+<article class="branch" data-lat="30.1740509" data-lng="31.4751113" data-area="outside" data-name="obour golf city mall al obour al qalubia qalubia">
+<div class="card-top"></div>
+<div class="card-content">
+<div class="branch-number">12 / Obour</div>
+<h3>Obour – Golf City Mall</h3>
+<p class="address">Golf City Mall, Obour, Al-Qalyubia</p>
+<div class="actions"><a class="map-btn primary" href="https://www.google.com/maps/place/neferdidi+el+obour/@30.174349,31.3933971,12z/data=!4m6!3m5!1s0x14581b6edef15b4b:0x58431d251db9f072!8m2!3d30.1740509!4d31.4751113!16s%2Fg%2F11zz9xn38v?entry=ttu&amp;g_ep=EgoyMDI2MTAwNy4wIKXMDSoASAFQAw%3D%3D" rel="noopener" target="_blank">↗ Open in Maps</a><button class="map-btn secondary show-on-map" type="button">◎ Show on map</button></div>
+</div>
+</article>
+<article class="branch" data-lat="30.0444" data-lng="31.2357" data-approx="1" data-area="cairo" data-name="downtown wust el balad cairo">
+<div class="card-top"></div>
+<div class="card-content">
+<div class="branch-number">13 / Cairo</div>
+<h3>Downtown</h3>
+<p class="address">Downtown Cairo</p>
+<div class="actions"><a class="map-btn primary" href="https://maps.app.goo.gl/BqkxXgY1vdEnTfsn7" rel="noopener" target="_blank">↗ Open in Maps</a><button class="map-btn secondary show-on-map" type="button">◎ Show on map</button></div>
+</div>
+</article>
+<div class="empty" id="empty">No branches match your search. Try another name or area.</div>
+</div>
+</div>
+</main>
+<!-- ================= EVENTS ================= -->
+<section class="section nfd-events" id="events">
+  <div class="container">
+    <div class="section-head center reveal">
+      <div class="eyebrow">Out &amp; about</div>
+      <h2>Our events</h2>
+    </div>
+    <!-- ===== HIGHLIGHTS: logos of the events we joined ===== -->
+    <div class="nfd-slider">
+      <button class="nfd-arrow l" aria-label="Previous">‹</button>
+      <div class="nfd-track">
+        <div class="nfd-hl"><div class="nfd-ring"><span><img src="logo-anyma.webp" alt="Anyma"></span></div><b>Anyma</b></div>
+        <div class="nfd-hl"><div class="nfd-ring"><span><img src="logo-tiesto.webp" alt="Tiësto"></span></div><b>Tiësto</b></div>
+        <div class="nfd-hl"><div class="nfd-ring"><span><img src="logo-wegz.webp" alt="WEGZ × PUBG"></span></div><b>WEGZ × PUBG</b></div>
+        <div class="nfd-hl"><div class="nfd-ring"><span><img src="logo-hekma.webp" alt="Beit El Hekma"></span></div><b>Beit El Hekma</b></div>
+        <div class="nfd-hl"><div class="nfd-ring"><span><img src="logo-miu.webp" alt="MIU Theatre"></span></div><b>MIU Theatre</b></div>
+        <div class="nfd-hl"><div class="nfd-ring"><span><img src="logo-huawei.webp" alt="Huawei"></span></div><b>Huawei</b></div>
+        <div class="nfd-hl"><div class="nfd-ring"><span><img src="logo-garden.webp" alt="Women's Day"></span></div><b>Women's Day</b></div>
+      </div>
+      <button class="nfd-arrow r" aria-label="Next">›</button>
+    </div>
+    <!-- ===== PHOTO CAROUSEL (swipe / drag / arrows) ===== -->
+    <div class="nfd-gal">
+      <button class="nfd-garrow l" aria-label="Previous photos">‹</button>
+      <div class="nfd-gallery">
+      <figure data-full="pyramids-01.webp"><img src="pyramids-01.webp" width="800" height="800" decoding="async" alt="Pyramids of Giza" loading="lazy"><figcaption>Pyramids of Giza</figcaption></figure>
+      <figure data-full="wegz-01.webp"><img src="wegz-01.webp" width="600" height="800" decoding="async" alt="WEGZ × PUBG Mobile × Neferdidi" loading="lazy"><figcaption>WEGZ × PUBG Mobile × Neferdidi</figcaption></figure>
+      <figure data-full="spring-01.webp"><img src="spring-01.webp" width="800" height="800" decoding="async" alt="Beit El Hekma · Chinese Spring Festival 2026" loading="lazy"><figcaption>Beit El Hekma · Chinese Spring Festival 2026</figcaption></figure>
+      <figure data-full="pyramids-02.webp"><img src="pyramids-02.webp" width="800" height="800" decoding="async" alt="Pyramids of Giza" loading="lazy"><figcaption>Pyramids of Giza</figcaption></figure>
+      <figure data-full="garden-01.webp"><img src="garden-01.webp" width="800" height="800" decoding="async" alt="Women's Day · International Garden" loading="lazy"><figcaption>Women's Day · International Garden</figcaption></figure>
+      <figure data-full="wegz-02.webp"><img src="wegz-02.webp" width="600" height="800" decoding="async" alt="WEGZ × PUBG Mobile × Neferdidi" loading="lazy"><figcaption>WEGZ × PUBG Mobile × Neferdidi</figcaption></figure>
+      <figure data-full="spring-02.webp"><img src="spring-02.webp" width="800" height="800" decoding="async" alt="Beit El Hekma · Chinese Spring Festival 2026" loading="lazy"><figcaption>Beit El Hekma · Chinese Spring Festival 2026</figcaption></figure>
+      <figure data-full="pyramids-03.webp"><img src="pyramids-03.webp" width="800" height="800" decoding="async" alt="Pyramids of Giza" loading="lazy"><figcaption>Pyramids of Giza</figcaption></figure>
+      <figure data-full="garden-02.webp"><img src="garden-02.webp" width="800" height="800" decoding="async" alt="Women's Day · International Garden" loading="lazy"><figcaption>Women's Day · International Garden</figcaption></figure>
+      <figure data-full="wegz-03.webp"><img src="wegz-03.webp" width="600" height="800" decoding="async" alt="WEGZ × PUBG Mobile × Neferdidi" loading="lazy"><figcaption>WEGZ × PUBG Mobile × Neferdidi</figcaption></figure>
+      <figure data-full="spring-03.webp"><img src="spring-03.webp" width="800" height="800" decoding="async" alt="Beit El Hekma · Chinese Spring Festival 2026" loading="lazy"><figcaption>Beit El Hekma · Chinese Spring Festival 2026</figcaption></figure>
+      <figure data-full="pyramids-04.webp"><img src="pyramids-04.webp" width="800" height="800" decoding="async" alt="Pyramids of Giza" loading="lazy"><figcaption>Pyramids of Giza</figcaption></figure>
+      <figure data-full="wegz-04.webp"><img src="wegz-04.webp" width="600" height="800" decoding="async" alt="WEGZ × PUBG Mobile × Neferdidi" loading="lazy"><figcaption>WEGZ × PUBG Mobile × Neferdidi</figcaption></figure>
+      <figure data-full="garden-03.webp"><img src="garden-03.webp" width="800" height="800" decoding="async" alt="Women's Day · International Garden" loading="lazy"><figcaption>Women's Day · International Garden</figcaption></figure>
+      <figure data-full="pyramids-05.webp"><img src="pyramids-05.webp" width="800" height="800" decoding="async" alt="Pyramids of Giza" loading="lazy"><figcaption>Pyramids of Giza</figcaption></figure>
+      <figure data-full="pyramids-08.webp"><img src="pyramids-08.webp" width="800" height="800" decoding="async" alt="Pyramids of Giza" loading="lazy"><figcaption>Pyramids of Giza</figcaption></figure>
+      <figure data-full="pyramids-09.webp"><img src="pyramids-09.webp" width="800" height="800" decoding="async" alt="Pyramids of Giza" loading="lazy"><figcaption>Pyramids of Giza</figcaption></figure>
+      <figure data-full="pyramids-10.webp"><img src="pyramids-10.webp" width="800" height="800" decoding="async" alt="Pyramids of Giza" loading="lazy"><figcaption>Pyramids of Giza</figcaption></figure>
+      <figure data-full="garden-04.webp"><img src="garden-04.webp" width="800" height="800" decoding="async" alt="Women's Day · International Garden" loading="lazy"><figcaption>Women's Day · International Garden</figcaption></figure>
+    </div>
+      <button class="nfd-garrow r" aria-label="Next photos">›</button>
+    </div>
+  </div>
+</section>
+<div class="nfd-lightbox" id="nfdLightbox" aria-hidden="true">
+    <button class="nfd-close" aria-label="Close">✕</button>
+    <button class="nfd-prev" aria-label="Previous">‹</button>
+    <img alt="">
+    <button class="nfd-next" aria-label="Next">›</button>
+    <div class="nfd-cap"></div>
+  </div>
+<!-- ================= CONTACT ================= -->
+<section class="section contact" id="contact">
+<div class="container">
+<div class="section-head reveal">
+<div class="eyebrow">Get in touch</div>
+<h2>Let's talk</h2>
+<p>Whether you want to work with us, open a franchise, or just tell us how good your last cup was — we're listening.</p>
+</div>
+<div class="contact-grid reveal">
+<a class="contact-card" href="https://www.instagram.com/neferdidimilktea/" rel="noopener" target="_blank">
+<b>Instagram</b>
+<p>Follow us for new flavours, behind-the-scenes and daily updates.</p>
+<span class="link">@neferdidimilktea →</span>
+</a>
+<a class="contact-card" href="https://www.facebook.com/profile.php?id=61575076108487" rel="noopener" target="_blank">
+<b>Facebook</b>
+<p>Stay connected with our community and find out about events.</p>
+<span class="link">Neferdidi Milkteashop →</span>
+</a>
+<a class="contact-card" href="https://www.tiktok.com/@neferdidimilkteashop" rel="noopener" target="_blank">
+<b>TikTok</b>
+<p>Watch our latest drinks, trends and fun moments.</p>
+<span class="link">@neferdidimilkteashop →</span>
+</a>
+</div>
+<div class="socials reveal">
+<a class="social" href="https://www.instagram.com/neferdidimilktea/" rel="noopener" target="_blank">Instagram</a>
+<a class="social" href="https://www.facebook.com/profile.php?id=61575076108487" rel="noopener" target="_blank">Facebook</a>
+<a class="social" href="https://www.tiktok.com/@neferdidimilkteashop" rel="noopener" target="_blank">TikTok</a>
+</div>
+</div>
+</section>
+<!-- ================= FOOTER ================= -->
+<footer>
+<div class="container">
+<div class="footer-grid">
+<div>
+<div class="footer-brand">
+<span class="brand-mark">N</span>
+<span class="brand-text">NEFERDIDI<small>MILKTEASHOP</small></span>
+</div>
+<p>Freshly brewed milk tea, fruit tea, coffee and shakes — made your way, every day, across Egypt.</p>
+</div>
+<div class="footer-col">
+<h4>Explore</h4>
+<a href="#story">Our Story</a>
+<a href="#menu">Menu</a>
+<a href="#branches">Branches</a>
+<a href="#events">Events</a>
+<a href="#contact">Contact</a>
+</div>
+<div class="footer-col">
+<h4>Popular</h4>
+<a href="#menu">Brown Sugar Boba</a>
+<a href="#menu">Cream Mango Boba</a>
+<a href="#menu">Pistachio Spanish Latte</a>
+<a href="#menu">Spanish Latte</a>
+</div>
+</div>
+<div class="footer-bottom">
+<div><strong>NEFERDIDI <span>●</span></strong>  MILKTEASHOP</div>
+<div>Good drinks. Good moments.  © <span id="year"></span> Neferdidi</div>
+</div>
+</div>
+</footer>
+<button aria-label="Back to top" class="to-top" id="toTop">↑</button>
+<script>
+/* ---------- Header shadow ---------- */
+const header = document.getElementById('siteHeader');
+addEventListener('scroll', () => {
+  header.classList.toggle('scrolled', scrollY > 8);
+}, { passive: true });
+
+/* ---------- Mobile nav ---------- */
+const burger = document.getElementById('burger');
+const nav = document.getElementById('nav');
+burger.addEventListener('click', () => {
+  const open = nav.classList.toggle('open');
+  burger.classList.toggle('active', open);
+  burger.setAttribute('aria-expanded', open);
+});
+function closeMobileNav() {
+  nav.classList.remove('open');
+  burger.classList.remove('active');
+  burger.setAttribute('aria-expanded', 'false');
+  burger.setAttribute('aria-label', 'Open menu');
+}
+burger.addEventListener('click', () => burger.setAttribute('aria-label', nav.classList.contains('open') ? 'Close menu' : 'Open menu'));
+nav.addEventListener('click', e => {
+  if (e.target.closest('a')) closeMobileNav();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMobileNav(); });
+document.addEventListener('click', e => {
+  if (nav.classList.contains('open') && !nav.contains(e.target) && !burger.contains(e.target)) closeMobileNav();
+});
+
+/* ---------- Menu: horizontal collections + instant search ---------- */
+(() => {
+  const tabs = Array.from(document.querySelectorAll('.tabs .tab'));
+  const originalGrid = document.getElementById('menuGrid');
+  const searchInput = document.getElementById('menuSearch');
+  const results = document.getElementById('menuResults');
+  if (!originalGrid) return;
+
+  const dishes = Array.from(originalGrid.querySelectorAll('.dish'));
+  // Graceful placeholder for any product photo that is missing from the supplied assets.
+  dishes.forEach(dish => {
+    const image = dish.querySelector('.dish-photo');
+    if (!image) return;
+    const showFallback = () => {
+      if (!image.isConnected) return;
+      const fallback = document.createElement('div');
+      fallback.className = 'dish-photo-fallback';
+      fallback.setAttribute('role', 'img');
+      fallback.setAttribute('aria-label', image.alt || 'Drink image unavailable');
+      fallback.textContent = '🥤';
+      image.replaceWith(fallback);
+    };
+    image.addEventListener('error', showFallback, { once: true });
+    if (image.complete && image.naturalWidth === 0) showFallback();
+  });
+  const catalog = document.createElement('div');
+  catalog.className = 'menu-catalog reveal';
+  catalog.id = 'menuCatalog';
+  const categories = [
+    { id: 'seasonal', title: "Seasonal & New", description: "Limited-time specials and fresh arrivals" },
+    { id: 'fruit', title: "Fruit, Lemon & Slush", description: "Fresh, fruity and refreshing" },
+    { id: 'pistachio', title: "Pistachio Series", description: "Rich, nutty favourites" },
+    { id: 'tea', title: "Tea & Coffee", description: "Milk teas, coffee and cocoa classics" },
+    { id: 'hot', title: "Hot Drinks", description: "Warm up this winter \u2014 served in paper cups" },
+    { id: 'special', title: "Special", description: "Special citrus tea favourites" },
+    { id: 'icecream', title: "Ice Cream", description: "Soft-serve, one cup at a time" },
+    { id: 'topping', title: "Toppings", description: "Make your drink your own" }
+  ];
+  const tracks = new Map();
+  const normalize = value => (value || '').toLocaleLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+  categories.forEach(category => {
+    const section = document.createElement('section');
+    section.className = 'menu-category';
+    section.id = 'menu-cat-' + category.id;
+    section.dataset.category = category.id;
+
+    const head = document.createElement('div');
+    head.className = 'menu-category-head';
+    const copy = document.createElement('div');
+    copy.className = 'menu-category-copy';
+    const title = document.createElement('h3');
+    title.className = 'menu-category-title';
+    title.textContent = category.title;
+    const subtitle = document.createElement('p');
+    subtitle.className = 'menu-category-subtitle';
+    subtitle.textContent = category.description;
+    copy.append(title, subtitle);
+
+    const controls = document.createElement('div');
+    controls.className = 'menu-carousel-controls';
+    const count = document.createElement('span');
+    count.className = 'menu-category-count';
+    const previous = document.createElement('button');
+    previous.className = 'menu-arrow';
+    previous.type = 'button';
+    previous.setAttribute('aria-label', 'Scroll ' + category.title + ' left');
+    previous.innerHTML = '&#8592;';
+    const next = document.createElement('button');
+    next.className = 'menu-arrow';
+    next.type = 'button';
+    next.setAttribute('aria-label', 'Scroll ' + category.title + ' right');
+    next.innerHTML = '&#8594;';
+    controls.append(count, previous, next);
+    head.append(copy, controls);
+
+    const track = document.createElement('div');
+    track.className = 'menu-grid menu-carousel';
+    track.setAttribute('aria-label', category.title + ' drinks');
+    track.tabIndex = 0;
+    const matching = dishes.filter(dish => dish.dataset.cat === category.id);
+    matching.forEach((dish, index) => {
+      dish.setAttribute('role', 'listitem');
+      dish.dataset.menuIndex = String(index);
+      track.appendChild(dish);
+    });
+    count.textContent = matching.length + (matching.length === 1 ? ' item' : ' items');
+    previous.addEventListener('click', () => track.scrollBy({ left: -track.clientWidth * 0.8, behavior: 'smooth' }));
+    next.addEventListener('click', () => track.scrollBy({ left: track.clientWidth * 0.8, behavior: 'smooth' }));
+
+    section.append(head, track);
+    catalog.appendChild(section);
+    tracks.set(category.id, { section, track, count });
+  });
+
+  const empty = document.createElement('p');
+  empty.className = 'menu-empty';
+  empty.textContent = 'No drinks found. Try another name or category.';
+  empty.hidden = true;
+  originalGrid.replaceWith(catalog);
+  catalog.after(empty);
+
+  function activateTab(tab) {
+    tabs.forEach(item => {
+      const selected = item === tab;
+      item.classList.toggle('active', selected);
+      item.setAttribute('aria-pressed', selected ? 'true' : 'false');
+    });
+  }
+  tabs.forEach(tab => tab.addEventListener('click', () => {
+    activateTab(tab);
+    const categoryId = tab.dataset.cat || 'all';
+    const target = categoryId === 'all' ? catalog : document.getElementById('menu-cat-' + categoryId);
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: categoryId === 'all' ? 'start' : 'nearest' });
+  }));
+
+  function applyMenuSearch() {
+    const term = normalize(searchInput?.value.trim() || '');
+    let visible = 0;
+    tracks.forEach(({ section, track, count }) => {
+      const cards = Array.from(track.querySelectorAll('.dish'));
+      let categoryVisible = 0;
+      cards.forEach(dish => {
+        const imageAlt = dish.querySelector('img')?.alt || '';
+        const match = !term || normalize(dish.textContent + ' ' + imageAlt + ' ' + (dish.dataset.search || '')).includes(term);
+        dish.classList.toggle('hide', !match);
+        if (match) { visible++; categoryVisible++; }
+      });
+      count.textContent = categoryVisible + (categoryVisible === 1 ? ' item' : ' items');
+      section.hidden = !!term && categoryVisible === 0;
+    });
+    if (results) results.textContent = term ? (visible + (visible === 1 ? ' match' : ' matches')) : (visible + ' drinks · swipe to explore');
+    empty.hidden = visible !== 0;
+  }
+  if (searchInput) searchInput.addEventListener('input', applyMenuSearch);
+  applyMenuSearch();
+})();
+
+/* ---------- Global image fallback ---------- */
+document.querySelectorAll('img').forEach(image => {
+  image.addEventListener('error', () => {
+    image.classList.add('image-unavailable');
+    image.style.visibility = 'hidden';
+  }, { once: true });
+});
+
+/* ---------- Branch search + filter ---------- */
+const search = document.getElementById('search');
+const area = document.getElementById('area');
+const cards = [...document.querySelectorAll('.branch')];
+const empty = document.getElementById('empty');
+const count = document.getElementById('count');
+
+function filterCards() {
+  const q = search.value.trim().toLowerCase();
+  const a = area.value;
+  let visible = 0;
+
+  cards.forEach(card => {
+    const matchText = card.dataset.name.includes(q) || card.innerText.toLowerCase().includes(q);
+    const matchArea = a === 'all' || card.dataset.area === a;
+    const show = matchText && matchArea;
+    card.style.display = show ? 'flex' : 'none';
+    if (show) visible++;
+  });
+
+  empty.style.display = visible ? 'none' : 'block';
+  count.textContent = visible + ' LOCATION' + (visible === 1 ? '' : 'S');
+  if (window.nfdMapSync) window.nfdMapSync();
+}
+search.addEventListener('input', filterCards);
+area.addEventListener('change', filterCards);
+
+/* ---------- Reveal on scroll ---------- */
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (!reduce && 'IntersectionObserver' in window) {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(en => {
+      if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+    });
+  }, { threshold: .12, rootMargin: '0px 0px -40px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+} else {
+  document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+}
+
+/* ---------- Scroll spy ---------- */
+const links = [...document.querySelectorAll('.nav-link')];
+const sections = [...document.querySelectorAll('section[id], main[id]')];
+if ('IntersectionObserver' in window) {
+  const spy = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
+      }
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  sections.forEach(s => spy.observe(s));
+}
+
+/* ---------- Back to top ---------- */
+const toTop = document.getElementById('toTop');
+addEventListener('scroll', () => toTop.classList.toggle('show', scrollY > 700), { passive: true });
+toTop.addEventListener('click', () => scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }));
+
+/* ---------- Year ---------- */
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script>
+(function () {
+  var wrap = document.getElementById('map-wrap');
+  if (!window.L) { wrap.classList.add('failed'); return; }
+  var map = L.map('branch-map', { scrollWheelZoom: false, zoomControl: true }).setView([30.06, 31.33], 11);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(map);
+  map.on('click', function () { map.scrollWheelZoom.enable(); });
+  map.on('mouseout', function () { map.scrollWheelZoom.disable(); });
+
+  var pinSvg = '<svg viewBox="0 0 36 46" xmlns="http://www.w3.org/2000/svg"><path d="M18 1C9 1 2 8 2 17c0 12 16 28 16 28s16-16 16-28C34 8 27 1 18 1z" fill="#f47721" stroke="#fff" stroke-width="2.5"/><circle cx="18" cy="17" r="6.5" fill="#fff"/></svg>';
+  var icon = L.divIcon({ className: 'nfd-pin', html: pinSvg, iconSize: [36, 46], iconAnchor: [18, 44], popupAnchor: [0, -40] });
+  function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+
+  var items = [];
+  document.querySelectorAll('.branch[data-lat]').forEach(function (card) {
+    var name = card.querySelector('h3').textContent;
+    var addr = card.querySelector('.address').textContent;
+    var link = card.querySelector('a.map-btn').getAttribute('href');
+    var approx = card.hasAttribute('data-approx');
+    var m = L.marker([+card.dataset.lat, +card.dataset.lng], { icon: icon, title: name, keyboard: true });
+    m.bindPopup('<div class="nfd-pop"><b>' + esc(name) + '</b><span>' + esc(addr) + '</span>' +
+      (approx ? '<em>Approximate pin &mdash; open Google Maps for the exact spot</em>' : '') +
+      '<a class="pop-btn" href="' + esc(link) + '" target="_blank" rel="noopener">&#8599; Open in Google Maps</a></div>');
+    m.addTo(map);
+    items.push({ card: card, marker: m });
+    var btn = card.querySelector('.show-on-map');
+    if (btn) btn.addEventListener('click', function () {
+      wrap.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
+      map.flyTo(m.getLatLng(), 16, { duration: .9 });
+      setTimeout(function () { m.openPopup(); }, 950);
+    });
+  });
+
+  window.nfdMapSync = function () {
+    var pts = [];
+    items.forEach(function (it) {
+      var on = it.card.style.display !== 'none';
+      if (on) { it.marker.addTo(map); pts.push(it.marker.getLatLng()); } else { map.removeLayer(it.marker); }
+    });
+    if (pts.length === 1) map.setView(pts[0], 15);
+    else if (pts.length) map.fitBounds(L.latLngBounds(pts).pad(.15));
+  };
+  window.nfdMapSync();
+  setTimeout(function () { map.invalidateSize(); window.nfdMapSync(); }, 400);
+  addEventListener('load', function () { map.invalidateSize(); });
+})();
+</script>
+<script>
+(function () {
+  var sec = document.getElementById('events');
+  if (!sec) return;
+
+  /* slider arrows */
+  var track = sec.querySelector('.nfd-track');
+  sec.querySelector('.nfd-slider .nfd-arrow.l').onclick = function () { track.scrollBy({ left: -260 }); };
+  sec.querySelector('.nfd-slider .nfd-arrow.r').onclick = function () { track.scrollBy({ left: 260 }); };
+  var figs = sec.querySelectorAll('.nfd-gallery figure');
+
+  /* photo carousel: arrows + mouse drag (touch swipe works natively) */
+  var gal = sec.querySelector('.nfd-gallery');
+  sec.querySelector('.nfd-garrow.l').onclick = function () { gal.scrollBy({ left: -gal.clientWidth * 0.8 }); };
+  sec.querySelector('.nfd-garrow.r').onclick = function () { gal.scrollBy({ left: gal.clientWidth * 0.8 }); };
+  var down = false, moved = false, sx = 0, sl = 0;
+  gal.addEventListener('pointerdown', function (e) {
+    if (e.pointerType !== 'mouse') return;
+    down = true; moved = false; sx = e.clientX; sl = gal.scrollLeft;
+  });
+  window.addEventListener('pointermove', function (e) {
+    if (!down) return;
+    var dx = e.clientX - sx;
+    if (!moved && Math.abs(dx) > 5) {
+      moved = true; gal.classList.add('drag');
+      gal.style.scrollBehavior = 'auto'; gal.style.scrollSnapType = 'none';
+    }
+    if (moved) gal.scrollLeft = sl - dx;
+  });
+  window.addEventListener('pointerup', function () {
+    if (!down) return;
+    down = false;
+    if (moved) { gal.classList.remove('drag'); gal.style.scrollBehavior = ''; gal.style.scrollSnapType = ''; }
+  });
+
+
+  /* lightbox */
+  var box = document.getElementById('nfdLightbox');
+  var img = box.querySelector('img'), cap = box.querySelector('.nfd-cap');
+  var list = [], idx = 0;
+  function show(i) {
+    idx = (i + list.length) % list.length;
+    img.src = list[idx].getAttribute('data-full') || list[idx].querySelector('img').src;
+    cap.textContent = list[idx].querySelector('figcaption').textContent + '  ·  ' + (idx + 1) + '/' + list.length;
+  }
+  function close() { box.classList.remove('open'); document.body.style.overflow = ''; }
+  figs.forEach(function (f) {
+    f.addEventListener('click', function () {
+      if (moved) { moved = false; return; }
+      list = Array.prototype.slice.call(figs);
+      show(list.indexOf(f));
+      box.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  box.querySelector('.nfd-close').onclick = close;
+  box.querySelector('.nfd-prev').onclick = function () { show(idx - 1); };
+  box.querySelector('.nfd-next').onclick = function () { show(idx + 1); };
+  box.addEventListener('click', function (e) { if (e.target === box) close(); });
+  document.addEventListener('keydown', function (e) {
+    if (!box.classList.contains('open')) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowLeft') show(idx - 1);
+    if (e.key === 'ArrowRight') show(idx + 1);
+  });
+})();
+</script>
+<script>
+(function () {
+  var ZH = {"Neferdidi | Milkteashop — Freshly Brewed, Made Your Way": "Neferdidi 奶茶店 | 鲜煮现做，随心定制", "MILKTEASHOP": "奶茶店", "Home": "首页", "Our Story": "品牌故事", "Menu": "菜单", "Branches": "门店", "Events": "活动", "Contact": "联系我们", "Find a branch": "查找门店", "Your next favourite sip": "你的下一杯心头好", "Freshly brewed.": "鲜煮现做。", "Made your way.": "随心定制。", "From slow-brewed milk tea and real-fruit teas to Spanish lattes and thick shakes — Neferdidi is your everyday treat, made fresh in every cup, at {N} branches across Egypt.": "从慢煮奶茶、真果水果茶到西班牙拿铁和浓稠奶昔——Neferdidi 是你的日常小确幸，每一杯都新鲜现做，门店遍布埃及{N}家以上。", "Explore the menu →": "探索菜单 →", "Find your branch": "找到你的门店", "Governorates": "个省份", "Fresh daily": "每日新鲜", "Freshly Brewed": "鲜煮现做", "Daily Boba": "每日珍珠", "Real Fruit": "真果真味", "Our story": "品牌故事", "A little cup of happiness, brewed every day.": "每天用心煮出的一小杯幸福。", "Neferdidi started with one simple idea: a great milk tea shouldn't be a special occasion. It should be the thing you grab on the way to work, the treat you share with friends, the little pause in a long day.": "Neferdidi 源于一个简单的想法：一杯好奶茶不该只属于特别的日子。它应该是你上班路上顺手带上的一杯，是与朋友分享的小确幸，是漫长一天里的小小停顿。", "So we keep it simple — real tea brewed in small batches, fresh milk, real fruit, and pearls cooked fresh every single day. No shortcuts, no powders pretending to be tea.": "所以我们把事情做得很简单——小批量现煮真茶、新鲜牛奶、真材实料的水果，以及每天现煮的珍珠。不走捷径，不用冒充茶的粉末。", "Tea brewed fresh in-store, multiple times a day": "门店每天多次现煮新鲜茶底", "Boba pearls cooked on-site, never re-heated": "珍珠现场现煮，绝不回锅加热", "Real fruit purées — no artificial syrups": "真果果泥——不使用人工糖浆", "Branches & counting": "门店持续增加中", "Cairo, New Cairo, 10th of Ramadan, Ismailia, Obour and more on the way.": "开罗、新开罗、斋月十日城、伊斯梅利亚、奥布尔，更多门店即将开业。", "Made the way you like it": "按你的口味定制", "Every cup is customisable — milk swap and as many toppings as you dare.": "每一杯都可以自由定制——可更换奶类，小料随你加。", "Good drinks. Good moments.": "好饮品，好时光。", "That's the whole point. Come for the boba, stay for the vibe.": "这就是我们的初衷。为珍珠而来，为氛围而留。", "Our menu": "我们的菜单", "Something for every craving": "满足每一种小馋", "Browse each collection, then swipe sideways to explore the drinks. Or search for your favourite.": "浏览各个系列，左右滑动探索饮品，或直接搜索你的最爱。", "All Items": "全部", "Fruit & Slush": "水果与冰沙", "Boba & Milk Tea": "珍珠奶茶", "Pistachio Series": "开心果系列", "Coffee & Tea": "咖啡与茶", "Toppings": "小料", "Fresh, fruity and refreshing": "新鲜果香，清爽解渴", "Creamy classics and chewy boba": "绵密经典与Q弹珍珠", "Rich, nutty favourites": "浓郁坚果香的人气之选", "Your everyday pick-me-up": "每日提神好选择", "Make your drink your own": "打造专属你的一杯", "Preparing menu…": "菜单加载中…", "No drinks found. Try another name or category.": "没有找到饮品，请换个名称或分类试试。", "Bestseller": "热销", "New": "新品", "(L)": "(大杯)", "(M)": "(中杯)", "(L/M)": "(大/中杯)", "Mango Coconut Milk": "芒果椰奶", "Mango and coconut milk blended into a tropical, creamy treat.": "芒果与椰奶调制出的热带风味奶香饮品。", "Fresh Green Grape Fruit Slush": "鲜青提冰沙", "Real green grapes blended with ice for a refreshing slush.": "新鲜青提与冰块打成清爽冰沙。", "Mixed Grapefruit Fruit Slush": "混合西柚冰沙", "Citrusy grapefruit blended into a cool, tangy slush.": "清新西柚打成冰爽微酸的冰沙。", "Fresh Peach Fruit Tea": "鲜桃水果茶", "Sweet peach slices in a light, refreshing fruit tea.": "香甜桃肉融入清爽果茶。", "Strawberry & Fresh Orange Fruit Tea": "草莓鲜橙果茶", "A vibrant mix of strawberry and fresh orange in iced tea.": "草莓与鲜橙融入冰茶，缤纷多彩。", "Passion Fruit & Mango Tea": "百香果芒果茶", "Tangy passion fruit meets sweet mango over iced tea.": "酸爽百香果遇上香甜芒果，配冰茶底。", "Peach Oolong Lemon Tea": "蜜桃乌龙柠檬茶", "Fragrant oolong tea with peach and a bright lemon twist.": "芬芳乌龙茶配蜜桃与清爽柠檬。", "Green Grape Lemon Tea": "青提柠檬茶", "Green grape and lemon over iced tea for a zesty sip.": "青提与柠檬融入冰茶，酸爽可口。", "Lemon Green Tea": "香水柠檬绿茶", "Classic iced green tea with fresh lemon.": "经典冰绿茶配鲜柠檬。", "Cream Lemon Smoothie": "奶盖柠檬思慕雪", "Lemon blended with cream for a smooth, tangy treat.": "柠檬与奶油打成顺滑微酸的饮品。", "Cantaloupe Slush": "玫珑蜜瓜思慕雪", "Sweet cantaloupe blended into a refreshing slush.": "香甜哈密瓜打成清爽冰沙。", "Cream Strawberry Slush": "芝士草莓思慕雪", "Strawberries and cream blended into a thick slush.": "草莓与奶油打成浓稠冰沙。", "Cream Grape Slush": "奶油葡萄冰沙", "Grape and cream blended for a smooth, fruity slush.": "葡萄与奶油混合，顺滑的果香冰沙。", "Brown Sugar Boba Milk Tea": "黑糖珍珠奶茶", "Caramelised brown sugar syrup, creamy milk and warm boba pearls.": "焦香黑糖浆、绵密牛奶与温热珍珠。", "Pudding Boba Milk Tea": "布丁珍珠奶茶", "Classic milk tea with boba pearls and silky pudding.": "经典奶茶配珍珠与丝滑布丁。", "Cream Green Grape Boba": "奶盖青提珍珠", "Green grape milk tea topped with a creamy foam.": "青提奶茶，覆上绵密奶盖。", "Cream Red Grape Boba": "奶盖红提珍珠", "Red grape milk tea with a rich cream layer.": "红提奶茶，覆上浓郁奶盖。", "Cream Peach Boba": "奶盖蜜桃珍珠", "Peach milk tea finished with a creamy foam.": "蜜桃奶茶，顶部是绵密奶盖。", "Cream Mango Boba": "奶盖芒果珍珠", "Mango milk tea topped with a smooth cream foam.": "芒果奶茶，顶部是顺滑奶盖。", "Strawberry Milk Shake": "草莓摇摇奶昔", "Thick and creamy strawberry milkshake.": "浓稠绵密的草莓奶昔。", "Peach Light Milk Tea Boba": "蜜桃轻乳茶珍珠", "Light peach milk tea with chewy boba pearls.": "清爽蜜桃奶茶配Q弹珍珠。", "Jasmine Light Milk Tea Boba": "茉莉轻乳茶珍珠", "Fragrant jasmine milk tea with boba pearls.": "茉莉花香奶茶配珍珠。", "Cream Peach Oolong Tea": "奶盖蜜桃乌龙茶", "Oolong tea with peach and a cream foam top.": "白桃茶，顶部是奶盖。", "Cream Jasmine Tea": "芝士茉莉奶盖", "Jasmine tea topped with a light cream foam.": "茉莉茶，顶部是轻盈奶盖。", "Creamy Cocoa": "芝士可可", "Rich cocoa blended with milk for a smooth, creamy drink.": "浓郁可可与牛奶调和，顺滑香醇。", "Mango Pistachio": "芒果开心果", "Mango and pistachio blended into a unique, nutty treat.": "芒果与开心果混合，独特的坚果风味。", "Pistachio Spanish Latte": "开心果西班牙拿铁", "Spanish latte with a rich pistachio twist.": "西班牙拿铁加入浓郁开心果风味。", "Pistachio Cream Peach Oolong Tea": "开心果奶盖蜜桃乌龙茶", "Peach oolong tea with pistachio cream foam.": "蜜桃乌龙茶，配开心果奶盖。", "Pistachio Cream Jasmine Tea": "开心果奶盖茉莉茶", "Jasmine tea topped with pistachio cream foam.": "茉莉茶，顶部是开心果奶盖。", "Strawberry Pistachio": "草莓开心果", "Strawberry and pistachio blended into a creamy delight.": "草莓与开心果融合，绵密香甜。", "Cocoa Pistachio": "开心果可可", "Cocoa and pistachio combined for a rich, nutty drink.": "可可与开心果结合，浓郁坚果香。", "Coffee Pistachio": "开心果奶盖咖啡", "Coffee blended with pistachio for a unique flavour.": "咖啡与开心果调和，风味独特。", "Spanish Latte": "西班牙拿铁", "Espresso, condensed milk and steamed milk — sweet and strong.": "浓缩咖啡、炼乳与热牛奶——香甜浓烈。", "Creamy Coffee": "芝士奶盖咖啡", "Smooth, creamy coffee for a rich pick-me-up.": "顺滑奶香咖啡，醇厚提神。", "Coffee Slush": "咖啡思慕雪", "Blended iced coffee for a refreshing caffeine kick.": "冰咖啡打成冰沙，清爽提神。", "Hot Mandarin Ceylon Tea": "热香橙锡兰", "A warming Ceylon tea infused with the bright aroma of mandarin orange.": "温热锡兰红茶融合清新的橘香。", "Classic black tea paired with sweet, citrusy orange.": "经典红茶搭配香甜清新的橙香。", "Bold black tea balanced with a fresh, zesty lemon finish.": "浓郁红茶搭配清新爽口的柠檬尾韵。", "Orange Black Tea": "香橙红茶", "Black tea infused with fresh orange.": "红茶融入鲜橙清香。", "Lemon Black Tea": "香柠红茶", "Classic black tea with a bright lemon finish.": "经典红茶，收尾是清爽柠檬。", "Pistachio Foam": "开心果奶盖", "Rich and nutty pistachio cream foam.": "浓郁坚果香的开心果奶盖。", "Cream Foam": "奶盖", "Classic sweet cream foam topping.": "经典香甜奶盖小料。", "Crystal Jelly Boba": "水晶珍珠", "Light, crunchy crystal jelly pearls.": "清爽有嚼劲的水晶果冻珍珠。", "Boba": "波霸珍珠", "Chewy tapioca pearls.": "Q弹木薯珍珠。", "Sago": "西米", "Small, soft sago pearls.": "小颗软糯西米。", "Pudding": "布丁", "Silky, sweet pudding cubes.": "丝滑香甜的布丁块。", "Allergy Warning:": "过敏提示：", "Contains Dairy, Fruit, etc. Ask before ordering.": "含乳制品、水果等成分，点单前请先询问。", "Images shown are for display purposes only. Prices and availability may vary by branch.": "图片仅供展示。价格及供应情况可能因门店而异。", "Our locations": "我们的门店", "Find your Neferdidi": "找到你身边的 Neferdidi", "See every branch on the map, search by name or area, then tap to open the location in Google Maps.": "在地图上查看所有门店，按名称或区域搜索，点击即可在 Google 地图中打开。", "All areas": "全部区域", "Cairo": "开罗", "New Cairo": "新开罗", "Outside Cairo": "开罗以外", "The map couldn't load.": "地图加载失败。", "Search Neferdidi on Google Maps ↗": "在 Google 地图搜索 Neferdidi ↗", "↗ Open in Maps": "↗ 在地图中打开", "◎ Show on map": "◎ 在地图上查看", "↗ Open in Google Maps": "↗ 在 Google 地图中打开", "Approximate pin — open Google Maps for the exact spot": "此为大致位置——请在 Google 地图中查看确切地点", "10th of Ramadan": "斋月十日城", "Ismailia": "伊斯梅利亚", "Obour": "奥布尔", "City Stars": "城市之星", "Masaken Al Mohandesin, Nasr City": "纳赛尔城，Masaken Al Mohandesin", "Maadi": "马阿迪", "In front of Street of Happiness, Maadi City Center Entrance": "快乐街对面，马阿迪城市中心入口", "The Egyptian Museum": "埃及博物馆", "Tahrir Square, Wasim Hasan, Qasr El Nil, Downtown Cairo": "开罗市中心，解放广场，Wasim Hasan，Qasr El Nil", "Neferdidi Fuel Up": "Neferdidi Fuel Up", "El-Moshir Tantawy Axis, Al Hay Al Asher, Nasr City": "纳赛尔城，Al Hay Al Asher，Moshir Tantawy 大道", "Misr El Nour Road, 10th of Ramadan Second": "斋月十日城第二区，Misr El Nour 路", "Ismailia 3": "伊斯梅利亚 3", "The Ring Road, El Sheikh Zayed, Ismailia 3": "伊斯梅利亚 3，环城路，El Sheikh Zayed", "Park Mall": "公园购物中心", "Park Mall, New Cairo 1": "新开罗 1 区，公园购物中心", "Nasr City – 8th District": "纳赛尔城第八区", "Helmy Abd El-Aaty Street, Al Manteqah Ath Thamenah, Nasr City": "纳赛尔城第八区，Helmy Abd El-Aaty 街", "Citadel": "萨拉丁城堡", "Saladin Citadel area, Cairo": "开罗，萨拉丁城堡周边", "Sheraton": "喜来登", "Ankara Street, Sheraton Al Matar, El Nozha": "El Nozha，喜来登机场区，Ankara 街", "Child’s Park": "儿童公园", "Aku Plaza, Abou Dawoud Al Zaheri Street, 6th District, Nasr City": "纳赛尔城第六区，Aku Plaza，Abou Dawoud Al Zaheri 街", "Obour – Golf City Mall": "奥布尔 – 高尔夫城购物中心", "Golf City Mall, Obour, Al-Qalyubia": "盖卢比尤省奥布尔，高尔夫城购物中心", "Downtown": "市中心", "Downtown Cairo": "开罗市中心", "No branches match your search. Try another name or area.": "没有找到匹配的门店，请换个名称或区域试试。", "Out & about": "活动掠影", "Our events": "我们的活动", "Pyramids of Giza": "吉萨金字塔", "Beit El Hekma · Chinese Spring Festival 2026": "Beit El Hekma · 2026 中国春节", "Women's Day · International Garden": "妇女节 · 国际花园", "Women's Day": "妇女节", "MIU Theatre": "MIU 剧院", "Huawei": "华为", "Beit El Hekma": "Beit El Hekma", "Previous": "上一张", "Next": "下一张", "Previous photos": "上一组照片", "Next photos": "下一组照片", "Close": "关闭", "Back to top": "回到顶部", "Get in touch": "联系我们", "Let's talk": "聊一聊吧", "Whether you want to work with us, open a franchise, or just tell us how good your last cup was — we're listening.": "无论你想与我们合作、加盟开店，还是只想告诉我们上一杯有多好喝——我们都在倾听。", "Follow us for new flavours, behind-the-scenes and daily updates.": "关注我们，获取新口味、幕后花絮和每日动态。", "Stay connected with our community and find out about events.": "加入我们的社群，了解最新活动。", "Watch our latest drinks, trends and fun moments.": "观看我们的新品、潮流与欢乐瞬间。", "Freshly brewed milk tea, fruit tea, coffee and shakes — made your way, every day, across Egypt.": "鲜煮奶茶、水果茶、咖啡与奶昔——每天随心定制，遍布埃及。", "Explore": "探索", "Popular": "热门", "Brown Sugar Boba": "黑糖珍珠", "Good drinks. Good moments. ©": "好饮品，好时光。©", "Open menu": "打开菜单", "Neferdidi home": "Neferdidi 首页", "Neferdidi logo": "Neferdidi 标志", "Main navigation": "主导航", "Menu categories": "菜单分类", "Search drinks, tea, coffee...": "搜索饮品、茶、咖啡…", "Search menu items": "搜索菜单", "Search by branch or area...": "按门店或区域搜索…", "Search branches": "搜索门店", "Filter by area": "按区域筛选", "Map of Neferdidi branches": "Neferdidi 门店地图", "Switch language": "切换语言", "Seasonal & New": "季节限定与新品", "Limited-time specials and fresh arrivals": "限时特饮与全新上市", "Fruit, Lemon & Slush": "水果、柠檬与冰沙", "Slush": "冰沙", "Icy, blended and cool": "冰爽绵密，透心凉", "Tea & Coffee": "茶与咖啡", "Milk teas, coffee and cocoa classics": "奶茶、咖啡与可可经典", "Hot Drinks": "热饮", "Special citrus tea favourites": "特色柑橘茶饮", "Warm up this winter — served in paper cups": "冬日暖心热饮，纸杯盛装", "Ice Cream": "冰淇淋", "Soft-serve, one cup at a time": "杯装软冰淇淋", "Pomegranate Lemon Tea": "石榴柠檬茶", "Tangy pomegranate and fresh lemon over iced tea.": "酸甜石榴与鲜柠檬融入冰茶。", "Pomegranate Slush": "石榴冰", "Pomegranate blended into a cool, ruby-red slush.": "石榴打成红宝石般的冰爽冰沙。", "Mango Coconut Fresh": "杨枝甘露清爽版", "A lighter take on mango and coconut with fresh mango pieces.": "清爽版杨枝甘露，满满新鲜芒果粒。", "Cream Taro Coconut Milk": "芝士香芋椰椰奶", "Creamy taro swirled with fresh coconut milk.": "绵密香芋与鲜椰奶交织。", "Mango Coconut": "杨枝甘露", "Mixed Grapefruit": "复合西柚水果茶", "Citrusy grapefruit and mixed fruit for a bright, tangy sip.": "清新西柚与混合水果，酸甜爽口。", "Mango Passion Fruit": "百香芒果茶", "Strawberry Fruit Tea": "草莓鲜果茶", "Cream Lemon Slush": "芝士柠檬思慕雪", "Lemon blended with cream for a smooth, tangy slush.": "柠檬与奶油打成顺滑微酸的冰沙。", "Pistachio Peach Milk Tea": "开心果白桃轻乳茶", "Light peach milk tea crowned with pistachio cream.": "清爽白桃奶茶，顶部是开心果奶盖。", "Pistachio Jasmine Milk Tea": "开心果茉莉轻乳茶", "Fragrant jasmine milk tea crowned with pistachio cream.": "茉莉花香奶茶，顶部是开心果奶盖。", "Pistachio Peach Tea": "开心果白桃", "Peach tea topped with pistachio cream foam.": "白桃茶，顶部是开心果奶盖。", "Pistachio Jasmine Tea": "开心果茉莉", "Rich cocoa topped with a silky cream cap.": "浓郁可可，顶部是丝滑奶盖。", "Brown Sugar Milk Tea": "黑糖珍珠奶茶", "Brown Sugar Pudding Milk Tea": "布丁珍珠奶茶", "Cream Peach Tea": "芝士白桃盖", "Peach Milk Tea": "白桃轻乳茶", "Light peach milk tea, smooth and refreshing.": "清爽白桃奶茶，顺滑解渴。", "Jasmine Milk Tea": "茉莉轻乳茶", "Fragrant jasmine milk tea, light and floral.": "茉莉花香奶茶，清淡芬芳。", "Spanish Latte Cream": "芝士奶盖西班牙拿铁", "Hot Spanish latte finished with a silky cream cap.": "热西班牙拿铁，顶部是丝滑奶盖。", "Spanish Latte Pistachio": "开心果西班牙拿铁", "Hot Spanish latte topped with pistachio cream.": "热西班牙拿铁，顶部是开心果奶盖。", "Coffee Cream": "芝士奶盖咖啡", "Hot coffee topped with a smooth cream cap.": "热咖啡，顶部是顺滑奶盖。", "Hot coffee topped with pistachio cream.": "热咖啡，顶部是开心果奶盖。", "Warm brown sugar milk tea with chewy boba pearls.": "温热黑糖奶茶，配Q弹珍珠。", "Warm brown sugar milk tea with boba and silky pudding.": "温热黑糖奶茶，配珍珠与丝滑布丁。", "Light, warm peach milk tea.": "清爽温热的白桃奶茶。", "Light, warm jasmine milk tea.": "清爽温热的茉莉花香奶茶。", "Cocoa Cream": "芝士可可", "Hot cocoa finished with a silky cream cap.": "热可可，顶部是丝滑奶盖。", "Hot cocoa topped with pistachio cream.": "热可可，顶部是开心果奶盖。", "Warm taro and coconut milk with a cream cap.": "温热香芋椰奶，顶部是奶盖。", "Warm peach milk tea topped with pistachio cream.": "温热白桃奶茶，顶部是开心果奶盖。", "Warm jasmine milk tea topped with pistachio cream.": "温热茉莉奶茶，顶部是开心果奶盖。", "Cream Peach Milk Tea": "芝士白桃轻乳茶", "Warm peach milk tea finished with a cream cap.": "温热白桃奶茶，顶部是奶盖。", "Cream Jasmine Milk Tea": "芝士茉莉轻乳茶", "Warm jasmine milk tea finished with a cream cap.": "温热茉莉奶茶，顶部是奶盖。", "Cream Strawberry Ceylon Tea": "芝士草莓锡兰", "Warm Ceylon tea with strawberry and a cream cap.": "温热锡兰红茶，配草莓与奶盖。", "Taro Pistachio": "开心果香芋鲜奶", "Warm taro milk topped with pistachio cream.": "温热香芋鲜奶，顶部是开心果奶盖。", "Super Duo Ice Cream": "超级双拼风味冰淇淋", "Chocolate and milk soft-serve twisted together.": "巧克力与牛奶双拼软冰淇淋。", "Chocolate Ice Cream": "超级巧克力风味冰淇淋", "Rich, creamy chocolate soft-serve.": "浓郁顺滑的巧克力软冰淇淋。", "Milk Ice Cream": "牛奶风味冰淇淋", "Classic creamy milk soft-serve.": "经典奶香软冰淇淋。", "Jelly Boba": "水晶珍珠", "Popping Boba": "爆爆珠", "Bursting pearls full of juicy flavour.": "一咬爆汁的果味爆爆珠。", "Coconut Boba": "椰果珍珠", "Soft, chewy coconut pearls.": "软糯有嚼劲的椰果珍珠。", "Special": "特饮", "Seasonal": "季节限定", "Cup": "杯", "Sizes: L = 700 ml · M = 500 ml. Hot drinks are served in paper cups.": "规格：L = 700 毫升 · M = 500 毫升。热饮使用纸杯盛装。", "Sizes:": "规格：", "L = 700 ml · M = 500 ml. Hot drinks are served in paper cups.": "L = 700 毫升 · M = 500 毫升。热饮使用纸杯盛装。", "L": "大", "M": "中"};
+  var PATTERNS = [
+    [/^(\d+) EGP \/ (\d+) RMB$/, function (m) { return m[2] + ' 元 / ' + m[1] + ' EGP'; }],
+    [/^(\d+)\/(\d+) EGP · (\d+)\/(\d+) RMB$/, function (m) { return m[3] + '/' + m[4] + ' 元 · ' + m[1] + '/' + m[2] + ' EGP'; }],
+    [/^(\d+) items?$/, function (m) { return m[1] + ' 款'; }],
+    [/^(\d+) matches?$/, function (m) { return m[1] + ' 个结果'; }],
+    [/^(\d+) drinks · swipe to explore$/, function (m) { return m[1] + ' 款饮品 · 左右滑动浏览'; }],
+    [/^(\d+) LOCATIONS?$/, function (m) { return m[1] + ' 家门店'; }],
+    [/^(\d+) \/ (Cairo|New Cairo|10th of Ramadan|Ismailia|Obour)$/, function (m) { return m[1] + ' / ' + (ZH[m[2]] || m[2]); }],
+    [/^Scroll (.+) (left|right)$/, function (m) { return (ZH[m[1]] || m[1]) + (m[2] === 'left' ? ' 向左滑动' : ' 向右滑动'); }],
+    [/^(.+) drinks$/, function (m) { return (ZH[m[1]] || m[1]) + ' 饮品'; }]
+  ];
+  function tr(raw) {
+    var k = raw.replace(/\s+/g, ' ').trim();
+    if (!k) return null;
+    if (Object.prototype.hasOwnProperty.call(ZH, k)) return ZH[k];
+    for (var i = 0; i < PATTERNS.length; i++) { var m = k.match(PATTERNS[i][0]); if (m) return PATTERNS[i][1](m); }
+    return null;
+  }
+  var lang = 'en', busy = false, queued = false;
+  var textState = new WeakMap(), attrState = new WeakMap();
+  var ATTRS = ['alt', 'aria-label', 'placeholder', 'title'];
+  var titleEn = document.title;
+
+  function eachText(fn) {
+    var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) {
+        var p = n.parentNode && n.parentNode.nodeName;
+        return (p === 'SCRIPT' || p === 'STYLE' || p === 'NOSCRIPT') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var n; while ((n = w.nextNode())) fn(n);
+  }
+  function apply() {
+    busy = true;
+    if (lang === 'zh') {
+      eachText(function (n) {
+        var st = textState.get(n);
+        if (st && n.nodeValue === st.zh) return;
+        var z = tr(n.nodeValue);
+        if (z == null) { textState.delete(n); return; }
+        var lead = (n.nodeValue.match(/^\s*/) || [''])[0], trail = (n.nodeValue.match(/\s*$/) || [''])[0];
+        var en = n.nodeValue; n.nodeValue = lead + z + trail;
+        textState.set(n, { en: en, zh: n.nodeValue });
+      });
+      document.querySelectorAll('[alt],[aria-label],[placeholder],[title]').forEach(function (el) {
+        var st = attrState.get(el) || {}; 
+        ATTRS.forEach(function (a) {
+          if (!el.hasAttribute(a)) return;
+          var cur = el.getAttribute(a);
+          if (st[a] && cur === st[a].zh) return;
+          var z = tr(cur); if (z == null) return;
+          st[a] = { en: cur, zh: z }; el.setAttribute(a, z);
+        });
+        attrState.set(el, st);
+      });
+      var tz = tr(titleEn); if (tz) document.title = tz;
+    } else {
+      eachText(function (n) {
+        var st = textState.get(n);
+        if (st && n.nodeValue === st.zh) n.nodeValue = st.en;
+        textState.delete(n);
+      });
+      document.querySelectorAll('[alt],[aria-label],[placeholder],[title]').forEach(function (el) {
+        var st = attrState.get(el); if (!st) return;
+        ATTRS.forEach(function (a) { if (st[a] && el.getAttribute(a) === st[a].zh) el.setAttribute(a, st[a].en); });
+        attrState.delete(el);
+      });
+      document.title = titleEn;
+    }
+    busy = false;
+  }
+  function schedule() {
+    if (busy || queued || lang !== 'zh') return;
+    queued = true;
+    requestAnimationFrame(function () { queued = false; apply(); });
+  }
+  new MutationObserver(schedule).observe(document.body, { childList: true, subtree: true, characterData: true });
+
+  var toggle = document.getElementById('langToggle');
+  function setLang(l, save) {
+    lang = l;
+    document.documentElement.lang = l === 'zh' ? 'zh-CN' : 'en';
+    toggle.querySelectorAll('span').forEach(function (s) { s.classList.toggle('on', s.dataset.l === l); });
+    apply();
+    if (save) { try { localStorage.setItem('nfd-lang', l); } catch (e) {} }
+  }
+  toggle.addEventListener('click', function () { setLang(lang === 'zh' ? 'en' : 'zh', true); });
+  var saved = null; try { saved = localStorage.getItem('nfd-lang'); } catch (e) {}
+  // Run after all other page scripts have built the menu / map
+  window.addEventListener('DOMContentLoaded', function () { if (saved === 'zh') setLang('zh', false); });
+  if (document.readyState !== 'loading' && saved === 'zh') setLang('zh', false);
+})();
+</script>
+</body>
+</html>
